@@ -37,7 +37,7 @@ def watson_stt():
         def on_data(self, data):
             print(data)
             if data["results"][0]["final"] == True:
-                text_output = data["results"][0]["alternatives"][0]["transcript"]
+                text_output = data["results"][0]["alternatives"][0]["transcript"]  # fucked up json formatting, but who tf cares
                 print("You said: {}".format(text_output))
                 tts.watson_play(text_output)
 
