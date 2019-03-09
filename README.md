@@ -13,3 +13,8 @@ Support for a username/password combination for this service is not supported by
 Requiring to install pyaudio in order to work with `python -m pip install pyaudio`, stt.py allows the user to receive text from IBM Watson's SpeechToText service.
 
 In order to handle this, `/audioin.py` is used, which can also record and save a .wav file to the current folder with the `file_stt()` function.
+
+## Text to Speech
+
+Fairly simple: Logs in, opens a file, and writes the content of Watson's synthetic sound to it. Then, plays the contents. 
+This might break if more "streams" are changing the file simultaneously, so soon-to-come a new file will be added, with an optional cleanup after session is finished.
