@@ -1,14 +1,14 @@
 {
 	"speech_to_text":
 		{
-			"api_key" : "SQxLitLaV0pze0mODBvAtUy9oosRiD9w61kOezmslD6e",
+			"api_key" : "",
 			"url" : "https://gateway-lon.watsonplatform.net/speech-to-text/api" 
 		}
 	,
 
 	"assistant":
 		{
-		"api_key" : "lg8PQpRGZCtg0EXPnYBYwiIPnH_c7mXttvZUFrKqMf-U",
+		"api_key" : "",
 		"url" : "https://gateway-lon.watsonplatform.net/assistant/api"
 		}
 }
