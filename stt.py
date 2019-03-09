@@ -6,6 +6,7 @@ from threading import Thread
 
 from creds import credentials
 from audioin import stream_stt
+import tts
 
 def watson_stt():
     class MyRecognizeCallback(RecognizeCallback):
@@ -35,6 +36,10 @@ def watson_stt():
 
         def on_data(self, data):
             print(data)
+            if data["results"][0]["final"] == True:
+                text_output = data["results"][0]["alternatives"][0]["transcript"]
+                print("You said: {}".format(text_output))
+                tts.watson_play(text_output)
 
         def on_close(self):
             print("Connection closed")
@@ -54,7 +59,7 @@ def watson_stt():
                                             content_type="audio/l16; rate=44100",
                                             recognize_callback=mycallback,
                                             interim_results=True,  # Print everything at once, instead of waiting to session is closed.
-                                            singleUtterance=True
+                                            singleUtterance=False
                                           )
     
     sound_stream.start_stream()
@@ -82,7 +87,7 @@ def stt_file():
                                 auth=("apikey", stt_creds["api_key"]), 
                                 data=testingfile
                             )
-    a = resp.json()
+    a = resp.json(indent=2)
     print(a)
 
 

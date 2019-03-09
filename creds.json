@@ -1,32 +1,32 @@
 {
 	"speech_to_text":
 		{
-			"api_key" : "",
+			"api_key" : "SQxLitLaV0pze0mODBvAtUy9oosRiD9w61kOezmslD6e",
 			"url" : "https://gateway-lon.watsonplatform.net/speech-to-text/api" 
 		}
 	,
 
 	"assistant":
 		{
-		"api_key" : "",
+		"api_key" : "lg8PQpRGZCtg0EXPnYBYwiIPnH_c7mXttvZUFrKqMf-U",
 		"url" : "https://gateway-lon.watsonplatform.net/assistant/api"
 		},
 		
 	"text_to_speech":
 		{
-			"api_key" : "",
+			"api_key" : "20qigxjVpBo-tTpdAiH6ao5GDjWjnaqvho64qEV9q3Cn",
 			"url" : "https://gateway-lon.watsonplatform.net/text-to-speech/api"
 		},
 		
 	"visual_recognition":
 		{
-			"api_key" : "",
+			"api_key" : "wpsQI3oAnhTYDSJ8IL7mxpGrniDZGnLWgaLZH9joLTlD",
 			"url" : "https://gateway.watsonplatform.net/visual-recognition/api"
 		},
 		
 	"tone_analyzer":
 		{
-			"api_key" : "",
+			"api_key" : "8UeUE_QKYTe6xslv6D0iFT0OSPjsoQPM6a-xAJBxE9vu",
 			"url" : "https://gateway-lon.watsonplatform.net/tone-analyzer/api"
 		}
 }
