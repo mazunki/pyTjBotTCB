@@ -10,5 +10,23 @@
 		{
 		"api_key" : "",
 		"url" : "https://gateway-lon.watsonplatform.net/assistant/api"
+		},
+		
+	"text_to_speech":
+		{
+			"api_key" : "",
+			"url" : "https://gateway-lon.watsonplatform.net/text-to-speech/api"
+		},
+		
+	"visual_recognition":
+		{
+			"api_key" : "",
+			"url" : "https://gateway.watsonplatform.net/visual-recognition/api"
+		},
+		
+	"tone_analyzer":
+		{
+			"api_key" : "",
+			"url" : "https://gateway-lon.watsonplatform.net/tone-analyzer/api"
 		}
 }
