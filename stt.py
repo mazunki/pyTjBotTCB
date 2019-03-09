@@ -58,23 +58,22 @@ def watson_stt():
         stt_auth.recognize_using_websocket( audio=watson_audio_source, 
                                             content_type="audio/l16; rate=44100",
                                             recognize_callback=mycallback,
-                                            interim_results=True,  # Print everything at once, instead of waiting to session is closed.
-                                            singleUtterance=False
+                                            interim_results=True, # Print all attempts, including not final responses.
                                           )
     
-    sound_stream.start_stream()
+    sound_stream.start_stream()  # Start listening
     
     try:
-        recognize_thread = Thread(target=stt_ws, args=())
+        recognize_thread = Thread(target=stt_ws, args=())  # Keep sending audio pieces to Watson
         recognize_thread.start()
     
-        while True:
+        while True:  # xddddd
             pass
     except KeyboardInterrupt:
-        watson_audio_source.completed_recording()
-        sound_stream.stop_stream()
-        sound_stream.close()
-        mic.terminate()
+        watson_audio_source.completed_recording()  # Tell Watson they can close the session
+        sound_stream.stop_stream() # Stop sending audio
+        sound_stream.close() # Close audio stream
+        mic.terminate() # Close interface
 
 
 def stt_file():
@@ -87,7 +86,7 @@ def stt_file():
                                 auth=("apikey", stt_creds["api_key"]), 
                                 data=testingfile
                             )
-    a = resp.json(indent=2)
+    a = resp.json()
     print(a)
 
 

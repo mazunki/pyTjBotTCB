@@ -10,17 +10,21 @@ def play_audio(outputfile):
     CHANNELS = wf.getnchannels()
     RATE = wf.getframerate()
 
+    # What's the ratio between actual time, RATE and CHUNK? 
+    # How many letters/words on average per second?
+
     audio_stream = audio_interface.open(format = FORMAT,
                                         channels = CHANNELS,
                                         rate=RATE,
                                         output=True,
                                         )
 
-    data = wf.readframes(CHUNK)
+    data = wf.readframes(CHUNK)  # Select first stack
     while data != b"":
-        audio_stream.write(data)
-        data = wf.readframes(CHUNK)
+        audio_stream.write(data)  # Writing to output stream == Playing sound!
+        data = wf.readframes(CHUNK)  # Remove already played from stack, and select next.
 
-    audio_stream.close()
-    audio_interface.terminate()
-    wf.close()
+    # Cleanup
+    audio_stream.close() # Stop the audio stream
+    audio_interface.terminate() # Stop the interface connection
+    wf.close() # Since we haven't used with wave.open(...) as wf

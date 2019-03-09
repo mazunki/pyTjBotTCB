@@ -11,8 +11,11 @@ def watson_play(play_text):
                                         "audio/wav"
                                         )
     synthetic_voice = watson_stream.get_result().content
-    
+
     with open("output_file.wav", "wb") as audio_file:
         audio_file.write(synthetic_voice)
     
     play_audio("output_file.wav")
+
+if __name__ == '__main__':
+    watson_play("what song is that. darude sandstorm")
