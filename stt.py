@@ -39,7 +39,10 @@ def watson_stt():
             if data["results"][0]["final"] == True:
                 text_output = data["results"][0]["alternatives"][0]["transcript"]  # fucked up json formatting, but who tf cares
                 print("You said: {}".format(text_output))
-                tts.watson_play(text_output)
+                if "%HESITATION" in text_output: 
+                    tts.watson_play("I'm having an anxiety attack, please let me breathe")
+                else: 
+                    tts.watson_play(text_output)
 
         def on_close(self):
             print("Connection closed")
@@ -53,6 +56,8 @@ def watson_stt():
     stt_auth = stt(iam_apikey=stt_creds["api_key"], url=stt_creds["url"])
     mic, watson_audio_source, sound_stream = stream_stt()
     
+    print(stt_auth.list_language_models().get_results())
+
     def stt_ws(*args):
         mycallback = MyRecognizeCallback()
         stt_auth.recognize_using_websocket( audio=watson_audio_source, 
