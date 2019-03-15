@@ -1,5 +1,6 @@
 import pyaudio
 import wave
+from ctypes import *
 
 def play_audio(outputfile):
     wf = wave.open(outputfile, "rb")
@@ -17,6 +18,7 @@ def play_audio(outputfile):
                                         channels = CHANNELS,
                                         rate=RATE,
                                         output=True,
+                                        input_device_index=0
                                         )
 
     data = wf.readframes(CHUNK)  # Select first stack
@@ -28,3 +30,7 @@ def play_audio(outputfile):
     audio_stream.close() # Stop the audio stream
     audio_interface.terminate() # Stop the interface connection
     wf.close() # Since we haven't used with wave.open(...) as wf
+
+
+if __name__ == "__main__":
+    play_audio("testing.wav")
