@@ -1,6 +1,5 @@
 import pyaudio
 import wave
-from ctypes import *
 
 def play_audio(outputfile):
     wf = wave.open(outputfile, "rb")
@@ -17,8 +16,7 @@ def play_audio(outputfile):
     audio_stream = audio_interface.open(format = FORMAT,
                                         channels = CHANNELS,
                                         rate=RATE,
-                                        output=True,
-                                        input_device_index=0
+                                        output=True
                                         )
 
     data = wf.readframes(CHUNK)  # Select first stack

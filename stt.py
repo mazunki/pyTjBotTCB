@@ -6,9 +6,7 @@ from threading import Thread
 
 from creds import credentials
 from audioin import stream_stt
-import tts
-import tone_analyzer
-import telegramSendMessage
+import text_handler
 
 def watson_stt():
     class MyRecognizeCallback(RecognizeCallback):
@@ -19,10 +17,11 @@ def watson_stt():
             RecognizeCallback.__init__(self)
 
         def on_transcription(self, transcript):
-            print(transcript)
+            pass # We're using on_data() to handle everything. This function dismisses valuable information, 
+                  # and only shows the raw text. Useful for printing output, maybe.
 
         def on_connected(self):
-            print('Connection was successful')
+            print('Connection to IBM Watson was successful')
 
         def on_error(self, error):
             print('Error received: {}'.format(error))
@@ -31,48 +30,24 @@ def watson_stt():
             print('Inactivity timeout: {}'.format(error))
 
         def on_listening(self):
-            print('Service is listening')
+            print('Watson is now listening')
 
         def on_hypothesis(self, hypothesis):
-            print(hypothesis)
+            pass
+            # Interim results before on_transcription. Same deal.
 
         def on_data(self, data):
-            print(data)
-            if data["results"][0]["final"] == True:
-                text_output = data["results"][0]["alternatives"][0]["transcript"]  # fucked up json formatting, but who tf cares
-                print("You said: {}\n".format(text_output))
-                if "%HESITATION" in text_output: 
-                    tts.watson_play("I'm having an anxiety attack, please let me breathe")
-                elif "read" in text_output:
-                   
-                    while True:
-                        try:    
-                            print("trying to read something:")
-                            update = telegramSendMessage.getUpdates()
-                            json_update = update.json()
+            print("handling")
+            text_handler.parse_text(data)
 
-                            for message in json_update["result"]:
-                                tts.watson_play(message["message"]["from"]["first_name"]+" said "+message["message"]["text"])
-                                print("trying to say:", message["message"]["text"])
-                                with open("lastTgQuery.ini", "w+") as f:
-                                    f.write(str(message["update_id"]))
-                        except KeyboardInterrupt:
-                            tts.watson_play("I stopped listening to Telegram now.")
-                            break
-                else: 
-                    #tts.watson_play(text_output)
-                    #telegramSendMessage.send_message(text=text_output)
-                    tone, confidence = tone_analyzer.analyse_text(text_output)
-                    print("\""+confidence+"\"", sep="")
-                    tone_output = "I am "+str(round(float(confidence)*100))+"% confident you are "+tone
-                    print(tone_output)
-                    tts.watson_play(tone_output)
-
-        def on_close(self):
+        def on_close(self): 
             print("Connection closed")
+
+            # Safe closing of program.
             sound_stream.stop_stream()
             sound_stream.close()
             mic.terminate()
+            exit()
     
     
     
@@ -85,22 +60,24 @@ def watson_stt():
 
     def stt_ws(*args):
         mycallback = MyRecognizeCallback()
+        print("callback set")
         stt_auth.recognize_using_websocket( audio=watson_audio_source, 
                                             content_type="audio/l16; rate=88200", # rate = audioin.py's RATE*CHANNELS 
                                             recognize_callback=mycallback,
                                             interim_results=True, # Print all attempts, including not final responses.
                                           )
     
-    sound_stream.start_stream()  # Start listening
-    
+        
     try:
-        recognize_thread = Thread(target=stt_ws, args=())  # Keep sending audio pieces to Watson
+        recognize_thread = Thread(target=stt_ws, args=(), name="speech_to_text_subthread")  # Run stt in the background
+        sound_stream.start_stream()  # Start listening
         recognize_thread.start()
     
         while True:  # xddddd
             pass
     except KeyboardInterrupt:
         watson_audio_source.completed_recording()  # Tell Watson they can close the session
+
         sound_stream.stop_stream() # Stop sending audio
         sound_stream.close() # Close audio stream
         mic.terminate() # Close interface

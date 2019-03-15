@@ -31,7 +31,7 @@ def stream_stt():
                                         input=True, 
                                         frames_per_buffer=CHUNK,
                                         stream_callback=pyaudio_callback,
-                                        start=False
+                                        start=False,
                                        )
     
     return audio_interface, watson_audio_source, sound_stream
@@ -64,3 +64,6 @@ def file_stt():
     wf.setframerate(RATE)
     wf.writeframes(b"".join(frames))
     wf.close()
+
+if __name__ == '__main__':
+    stream_stt()
