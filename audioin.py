@@ -41,13 +41,21 @@ def file_stt():
     import wave
     WAVE_OUTPUT_FILENAME = "testing.wav"
     frames = []
+    
+    sound_stream = audio_interface.open(format=FORMAT, 
+                                        channels=CHANNELS, 
+                                        rate=RATE, 
+                                        input=True, 
+                                        frames_per_buffer=CHUNK,
+                                       )
+    
 
     for i in range(0, int(RATE/CHUNK*RECORD_SECONDS)):
-        data = stream.read(CHUNK)
+        data = sound_stream.read(CHUNK)
         frames.append(data)
 
-    stream.stop_stream()
-    stream.close()
+    sound_stream.stop_stream()
+    sound_stream.close()
     audio_interface.terminate()
 
     wf = wave.open(WAVE_OUTPUT_FILENAME, "wb")

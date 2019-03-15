@@ -7,6 +7,8 @@ stt_creds = credentials["text_to_speech"]
 tts_auth = tts(iam_apikey=stt_creds["api_key"], url=stt_creds["url"])
 
 def watson_play(play_text):
+    print("playing audio...")
+    print(play_text)
     watson_stream = tts_auth.synthesize(play_text, 
                                         "audio/wav"
                                         )

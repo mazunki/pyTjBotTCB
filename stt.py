@@ -7,6 +7,8 @@ from threading import Thread
 from creds import credentials
 from audioin import stream_stt
 import tts
+import tone_analyzer
+import telegramSendMessage
 
 def watson_stt():
     class MyRecognizeCallback(RecognizeCallback):
@@ -38,11 +40,33 @@ def watson_stt():
             print(data)
             if data["results"][0]["final"] == True:
                 text_output = data["results"][0]["alternatives"][0]["transcript"]  # fucked up json formatting, but who tf cares
-                print("You said: {}".format(text_output))
+                print("You said: {}\n".format(text_output))
                 if "%HESITATION" in text_output: 
                     tts.watson_play("I'm having an anxiety attack, please let me breathe")
+                elif "read" in text_output:
+                   
+                    while True:
+                        try:    
+                            print("trying to read something:")
+                            update = telegramSendMessage.getUpdates()
+                            json_update = update.json()
+
+                            for message in json_update["result"]:
+                                tts.watson_play(message["message"]["from"]["first_name"]+" said "+message["message"]["text"])
+                                print("trying to say:", message["message"]["text"])
+                                with open("lastTgQuery.ini", "w+") as f:
+                                    f.write(str(message["update_id"]))
+                        except KeyboardInterrupt:
+                            tts.watson_play("I stopped listening to Telegram now.")
+                            break
                 else: 
-                    tts.watson_play(text_output)
+                    #tts.watson_play(text_output)
+                    #telegramSendMessage.send_message(text=text_output)
+                    tone, confidence = tone_analyzer.analyse_text(text_output)
+                    print("\""+confidence+"\"", sep="")
+                    tone_output = "I am "+str(round(float(confidence)*100))+"% confident you are "+tone
+                    print(tone_output)
+                    tts.watson_play(tone_output)
 
         def on_close(self):
             print("Connection closed")
@@ -51,17 +75,18 @@ def watson_stt():
             mic.terminate()
     
     
+    
     stt_creds = credentials["speech_to_text"]
     
     stt_auth = stt(iam_apikey=stt_creds["api_key"], url=stt_creds["url"])
     mic, watson_audio_source, sound_stream = stream_stt()
     
-    print(stt_auth.list_language_models().get_results())
+    # print(stt_auth.list_language_models().get_results()) # Unsupported in Lite version
 
     def stt_ws(*args):
         mycallback = MyRecognizeCallback()
         stt_auth.recognize_using_websocket( audio=watson_audio_source, 
-                                            content_type="audio/l16; rate=44100",
+                                            content_type="audio/l16; rate=88200", # rate = audioin.py's RATE*CHANNELS 
                                             recognize_callback=mycallback,
                                             interim_results=True, # Print all attempts, including not final responses.
                                           )
@@ -82,7 +107,13 @@ def watson_stt():
 
 
 def stt_file():
-    with open("robotvoice.wav", "rb") as testingfile:
+    
+    stt_creds = credentials["speech_to_text"]
+    
+    stt_auth = stt(iam_apikey=stt_creds["api_key"], url=stt_creds["url"])
+    mic, watson_audio_source, sound_stream = stream_stt()
+    
+    with open("testing.wav", "rb") as testingfile:
         print(stt_creds["api_key"])
         resp = requests.post(   stt_creds["url"]+"/v1/recognize", 
                                 headers={
