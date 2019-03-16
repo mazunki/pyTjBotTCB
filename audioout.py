@@ -1,34 +1,43 @@
 import pyaudio
 import wave
+import time
+from queue import Queue, Full
 
-def play_audio(outputfile):
-    wf = wave.open(outputfile, "rb")
+CHUNK = 1024
+FORMAT = pyaudio.paInt16  # Guessing
+CHANNELS = 2
+RATE = 44100
+BUFFER_SIZE = 16*CHUNK
+
+audio_stack_out = Queue(maxsize=int(BUFFER_SIZE/CHUNK))
+not_stopped = None
+
+def audio_from_stack():
     audio_interface = pyaudio.PyAudio()
 
-    CHUNK = 1024
-    FORMAT = audio_interface.get_format_from_width(wf.getsampwidth())
-    CHANNELS = wf.getnchannels()
-    RATE = wf.getframerate()
+    def read_from_stack(new_data, frame_count, time_info, status):
+        try:
+            print("trying to speak")
+            data = audio_stack_out.get(frame_count)
+            print(audio_stack_out.qsize())
+        except Exception as e:
+            pass 
+        return (data, pyaudio.paContinue)
 
-    # What's the ratio between actual time, RATE and CHUNK? 
-    # How many letters/words on average per second?
+    sound_stream = audio_interface.open(
+                        format=FORMAT,
+                        channels=CHANNELS,
+                        rate=RATE,
+                        output=True,
+                        frames_per_buffer=CHUNK,
+                        stream_callback=read_from_stack,
+                        start=True,
+                       )
 
-    audio_stream = audio_interface.open(format = FORMAT,
-                                        channels = CHANNELS,
-                                        rate=RATE,
-                                        output=True
-                                        )
-
-    data = wf.readframes(CHUNK)  # Select first stack
-    while data != b"":
-        audio_stream.write(data)  # Writing to output stream == Playing sound!
-        data = wf.readframes(CHUNK)  # Remove already played from stack, and select next.
-
-    # Cleanup
-    audio_stream.close() # Stop the audio stream
-    audio_interface.terminate() # Stop the interface connection
-    wf.close() # Since we haven't used with wave.open(...) as wf
-
+    while not_stopped:
+        pass  # don't stop me now I'm having such a good time
+    else:
+        return
 
 if __name__ == "__main__":
-    play_audio("testing.wav")
+    audio_from_stack()
