@@ -35,7 +35,7 @@ def analyse_text(text=sample_text, num_tones=1): # 7 is the currently highest nu
                 #print(confidence,tone) 
         print(tone,confidence)
         if confidence == 0.0:
-            return "anything", "not really sure"  # hacky lol, returns this if watson doesn't return any tone
+            return "emotionless", "1"  # hacky lol, returns this if watson doesn't return any tone
         else:
             return str(tone), str(confidence)
     else:

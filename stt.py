@@ -69,15 +69,16 @@ def watson_stt():
     
         
     try:
-        recognize_thread = Thread(target=stt_ws, args=(), name="speech_to_text_subthread")  # Run stt in the background
+        listening_thread = Thread(target=stt_ws, args=(), name="speech_to_text_subthread")  # Run stt in the background
         sound_stream.start_stream()  # Start listening
-        recognize_thread.start()
+        listening_thread.start()
     
         while True:  # xddddd
             pass
     except KeyboardInterrupt:
         watson_audio_source.completed_recording()  # Tell Watson they can close the session
-
+        
+        listening_thread.stop()
         sound_stream.stop_stream() # Stop sending audio
         sound_stream.close() # Close audio stream
         mic.terminate() # Close interface
