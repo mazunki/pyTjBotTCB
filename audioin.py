@@ -3,11 +3,12 @@ from queue import Queue, Full
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
-CHANNELS = 2
+CHANNELS = 2 
 RATE = 44100
 BUFFER_SIZE = 16*CHUNK
 
-not_stopped = True
+stopped = False 
+testing = False
 audio_interface = 0
 sound_stream = 0
 stack = 0
@@ -23,7 +24,7 @@ def add_to_stack(new_data, frame_count, time_info, status):
 def setup():
     try:
         global stack
-        stack = Queue(int(BUFFER_SIZE/CHUNK))
+        stack = Queue(maxsize=int(BUFFER_SIZE/CHUNK))
     except:
         print("Couldn't set up stack.")
         stack = None
@@ -44,7 +45,7 @@ def setup():
                                 input=True, 
                                 frames_per_buffer=CHUNK,
                                 stream_callback=add_to_stack,
-                                start=False,
+                                start=True,
                            )
         except:
             sound_stream = None
@@ -69,14 +70,43 @@ def init_audioin():
         sound_stream.start_stream()
         print("Microphone should be working.\n")
 
-        while not_stopped:
+        global stopped
+        while stopped == False:
             pass  # I'm having a ball. Don't stop me now~
         else:
-            print("Turning off microphone.")
-            sound_stream.stop_stream()
-            audio_interface.terminate()
+            if not testing:
+                print("Turning off microphone.")
+                sound_stream.stop_stream()
+                audio_interface.terminate()
+                return
+            else:
+                return
 
+def record_file(name, recording_time=5):
+    import time
+
+    print("Recording to file \"{}\" for {}s".format(name, recording_time))
+    frames = list()
+    start_time = time.time()
+    end_time = start_time + recording_time
+    
+    while time.time() < end_time:
+        try:
+            oldest_frame = stack.get(CHUNK)
+            frames.append(oldest_frame)
+        except Empty:
+            print("Nothing new to add.")
+    else:
+        print("Recording done. Saving to file...")
+
+        with open(name, "wb") as f:
+            f.write(b"".join(frames))
+            print("Done.")
 
 if __name__ == '__main__':
-    #stream_stt()
-    pass
+    stopped = False
+    testing = True
+    init_audioin()
+
+    record_file("testing2.wav", 5) 
+

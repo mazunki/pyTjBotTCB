@@ -2,11 +2,11 @@ import pyaudio
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16  # Guessing
-CHANNELS = 2
+CHANNELS = 2 
 RATE = 44100
 BUFFER_SIZE = 16*CHUNK
 
-not_stopped = True
+stopped = False
 audio_interface = 0
 sound_stream = 0
 
@@ -48,11 +48,17 @@ def init_audioout():
     else:
         print("Speaker should be working.\n")
 
-        while not_stopped:
+        global stopped
+        while stopped == False:
             pass  # don't stop me now I'm having such a good time
         else:
-            print("Turning off speaker.")
-            return
+            if not testing:
+                print("Turning off speaker.")
+                sound_stream.stop_stream()
+                audio_interface.terminate()
+                return
+            else:
+                return
 
 def play_audio(bit_audio):
     print("Playing audio")
@@ -61,6 +67,40 @@ def play_audio(bit_audio):
     sound_stream.stop_stream()
     print("Done playing audio.")
 
+def play_file(file_name):
+    with open(file_name, "rb") as f:
+        bit_data = f.read()
+    play_audio(bit_data)
+
+def test_if_stack_accessible(name, recording_time=5):
+    import time
+    import audioin
+    import queue
+
+    print("Recording to file \"{}\" for {}s".format(name, recording_time))
+    frames = list()
+    start_time = time.time()
+    end_time = start_time + recording_time
+
+    while time.time() < end_time:
+        try:
+            oldest_frame = audioin.stack.get(CHUNK)
+            frames.append(oldest_frame)
+        except queue.Empty:
+            print("Nothing new to add.")
+    else:
+        print("Recording done. Saving to file...")
+
+        with open(name, "wb") as f:
+            f.write(b"".join(frames))
+            print("Done.")
+
+
 
 if __name__ == "__main__":
-    pass
+    not_stopped = False
+    test_if_stack_accessible("testing2.wav")
+    audioin.init_audioin()
+    init_audioout()
+    play_file("testing2.wav")
+
