@@ -71,16 +71,19 @@ def init_audioin():
         print("Microphone should be working.\n")
 
         global stopped
-        while stopped == False:
-            pass  # I'm having a ball. Don't stop me now~
-        else:
-            if not testing:
-                print("Turning off microphone.")
-                sound_stream.stop_stream()
-                audio_interface.terminate()
-                return
+        try:
+            while stopped == False:
+                pass  # I'm having a ball. Don't stop me now~
             else:
-                return
+                if not testing:
+                    print("Turning off microphone.")
+                    sound_stream.stop_stream()
+                    audio_interface.terminate()
+                    return
+                else:
+                    return
+        except KeyboardInterrupt:
+            print("Interrupted audio_in")
 
 def record_file(name, recording_time=5):
     import time

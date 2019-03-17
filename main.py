@@ -22,6 +22,7 @@ if __name__ == "__main__":
 
     try:
         while True:
+            print(th_audio_out.isAlive(), th_audio_in.isAlive(), th_watson_stt_socket.isAlive())
             # tts.watson_play("hello how are you doing")
             if stt.error_call == True:
                 audioin.stopped = True

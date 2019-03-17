@@ -7,6 +7,7 @@ RATE = 44100
 BUFFER_SIZE = 16*CHUNK
 
 stopped = False
+testing = False
 audio_interface = 0
 sound_stream = 0
 
@@ -49,16 +50,20 @@ def init_audioout():
         print("Speaker should be working.\n")
 
         global stopped
-        while stopped == False:
-            pass  # don't stop me now I'm having such a good time
-        else:
-            if not testing:
-                print("Turning off speaker.")
-                sound_stream.stop_stream()
-                audio_interface.terminate()
-                return
+        try:
+            while stopped == False:
+                pass  # don't stop me now I'm having such a good time
             else:
-                return
+                if not testing:
+                    print("Turning off speaker.")
+                    sound_stream.stop_stream()
+                    audio_interface.terminate()
+                    return
+                else: # Not closing stream here because maybe? y'now
+                    return
+        except KeyboardInterrupt:
+            print("Interrupted audio_out")
+
 
 def play_audio(bit_audio):
     print("Playing audio")
@@ -99,6 +104,7 @@ def test_if_stack_accessible(name, recording_time=5):
 
 if __name__ == "__main__":
     not_stopped = False
+    testing = True
     test_if_stack_accessible("testing2.wav")
     audioin.init_audioin()
     init_audioout()
