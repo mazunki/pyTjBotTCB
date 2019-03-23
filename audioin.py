@@ -17,7 +17,7 @@ stack = Queue(maxsize=int(BUFFER_SIZE/CHUNK))
 def add_to_stack(new_data, frame_count, time_info, status):
     global stack
     try:
-        # print(stack)
+        # print(new_data, "\n")
         stack.put(new_data)
     except Full:
         pass
@@ -60,7 +60,7 @@ def init_audioin():
     global audio_interface
     global sound_stream
     audio_interface, sound_stream = setup()
-    print("Created audio interface {}, sound stream {}, and stack {}".format(audio_interface, sound_stream, stack))
+    # print("Created audio interface {}, sound stream {}, and stack {}".format(audio_interface, sound_stream, stack))
 
     if audio_interface == None:
         print("PyAudio crashed creating microphone.\n")
@@ -81,6 +81,7 @@ def init_audioin():
                     print("Turning off microphone.")
                     sound_stream.stop_stream()
                     audio_interface.terminate()
+                    print("Closing init_audioin")
                     return
                 else:
                     return

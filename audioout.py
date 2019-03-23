@@ -2,7 +2,7 @@ import pyaudio
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16  # Guessing
-CHANNELS = 2 
+CHANNELS = 1 
 RATE = 44100
 BUFFER_SIZE = 16*CHUNK
 
@@ -53,13 +53,14 @@ def init_audioout():
         try:
             while stopped == False:
                 pass  # don't stop me now I'm having such a good time
-            if not testing:
-                print("Turning off speaker.")
-                sound_stream.stop_stream()
-                audio_interface.terminate()
-                return
-            else: # Not closing stream here because maybe? y'now
-                return
+            else:
+                if not testing:
+                    print("Turning off speaker.")
+                    sound_stream.stop_stream()
+                    audio_interface.terminate()
+                    print("Closing init_audioout")
+                else: # Not closing stream here because maybe? y'now
+                    return
         except KeyboardInterrupt:
             print("Interrupted audio_out")
 

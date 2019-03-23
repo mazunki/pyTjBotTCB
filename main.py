@@ -8,9 +8,9 @@ import time
 
 if __name__ == "__main__":
     
-    th_audio_out = Thread(target=audioout.init_audioout)
-    th_audio_in =  Thread(target=audioin.init_audioin)
-    th_watson_stt_socket = Thread(target=stt.stt_ws_listener)
+    th_audio_out = Thread(target=audioout.init_audioout, name="maznoski")
+    th_audio_in =  Thread(target=audioin.init_audioin, name="MiceLitoris")
+    th_watson_stt_socket = Thread(target=stt.stt_ws_listener, name="mr_watson")
     
     th_audio_out.start()
     time.sleep(1)
@@ -27,6 +27,7 @@ if __name__ == "__main__":
                 if stt.error_call == True:
                     audioin.stopped = True
                     audioout.stopped = True
+                
                 else:
                     pass
             else:

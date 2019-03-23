@@ -30,6 +30,7 @@ class MyRecognizeCallback(RecognizeCallback):
         global error_call
         error_call = True
 
+
     def on_inactivity_timeout(self, error):
         print('Inactivity timeout: {}'.format(error))
 
@@ -77,29 +78,36 @@ def stt_ws_listener():
     watson_audio_stack = AudioSource(audioin.stack, is_recording=True, is_buffer=True)
     print("Watson Audio stack created.")
 
-    stt_auth.recognize_using_websocket( 
-        audio=watson_audio_stack, 
-        content_type="audio/l16; rate=44100", # rate = audioin.py's RATE*CHANNELS 
-        recognize_callback=mycallback,
-        interim_results=True, # Print all attempts, including not final responses.
-    )
+    try:
+        socket_output = stt_auth.recognize_using_websocket( 
+            audio=watson_audio_stack, 
+            content_type="audio/l16; rate=44100", # rate = audioin.py's RATE*CHANNELS 
+            recognize_callback=mycallback,
+            interim_results=True, # Print all attempts, including not final responses.
+            )
+        print("Socket quit with message: {}".format(socket_output))
+    except:
+        print("Error at websocket!!")
+        return
 
 
 def stt_file(name):
     print("Opening file...")
+
     with open(name, "rb") as audio_file:
         watson_audio_stack = AudioSource(audio_file)
 
         print("Sending file to Watson...")
         stt_auth.recognize_using_websocket( 
             audio=watson_audio_stack, 
-            content_type="audio/wav", # rate = audioin.py's RATE*CHANNELS 
+            content_type="audio/flac", # rate = audioin.py's RATE*CHANNELS 
             recognize_callback=mycallback,
             interim_results=True, # Print all attempts, including not final responses.
         )
 
 if __name__ == '__main__':
     #stack = 
-    #stt_file("testing.wav")
+    stt_file("testing.wav")
 
-    stt_ws_listener()
+    # stt_ws_listener()
+
