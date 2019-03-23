@@ -22,13 +22,18 @@ if __name__ == "__main__":
 
     try:
         while True:
-            print(th_audio_out.isAlive(), th_audio_in.isAlive(), th_watson_stt_socket.isAlive())
-            # tts.watson_play("hello how are you doing")
-            if stt.error_call == True:
+            if th_audio_out.isAlive() and th_audio_in.isAlive() and th_watson_stt_socket.isAlive():
+                # tts.watson_play("hello how are you doing")
+                if stt.error_call == True:
+                    audioin.stopped = True
+                    audioout.stopped = True
+                else:
+                    pass
+            else:
                 audioin.stopped = True
                 audioout.stopped = True
-            else:
-                pass
+                stt.error_call = True
+                break
     except KeyboardInterrupt:
         audioout.stopped = True
         audioin.stopped = True

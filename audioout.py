@@ -28,7 +28,7 @@ def setup():
                             rate=RATE,
                             output=True,
                             frames_per_buffer=CHUNK,
-                            start=False)
+                            start=True)
     except Exception as e:
         print(e)
         sound_stream = None
@@ -53,14 +53,13 @@ def init_audioout():
         try:
             while stopped == False:
                 pass  # don't stop me now I'm having such a good time
-            else:
-                if not testing:
-                    print("Turning off speaker.")
-                    sound_stream.stop_stream()
-                    audio_interface.terminate()
-                    return
-                else: # Not closing stream here because maybe? y'now
-                    return
+            if not testing:
+                print("Turning off speaker.")
+                sound_stream.stop_stream()
+                audio_interface.terminate()
+                return
+            else: # Not closing stream here because maybe? y'now
+                return
         except KeyboardInterrupt:
             print("Interrupted audio_out")
 
@@ -73,9 +72,12 @@ def play_audio(bit_audio):
     print("Done playing audio.")
 
 def play_file(file_name):
+    import time
+    print("Playing file:", file_name)
     with open(file_name, "rb") as f:
         bit_data = f.read()
     play_audio(bit_data)
+    time.sleep(5)
 
 def test_if_stack_accessible(name, recording_time=5):
     import time
@@ -103,10 +105,8 @@ def test_if_stack_accessible(name, recording_time=5):
 
 
 if __name__ == "__main__":
-    not_stopped = False
+    stopped = False
     testing = True
-    test_if_stack_accessible("testing2.wav")
-    audioin.init_audioin()
     init_audioout()
-    play_file("testing2.wav")
+    play_file("testing.wav")
 

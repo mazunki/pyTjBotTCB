@@ -6,6 +6,8 @@ from threading import Thread
 from creds import credentials
 #import text_handler
 import audioin
+import audioout
+import time
 
 error_call = False
 
@@ -53,14 +55,31 @@ stt_auth = stt(iam_apikey=stt_creds["api_key"], url=stt_creds["url"])
 mycallback = MyRecognizeCallback()
 
 def stt_ws_listener():
-    print("Preparing Watson websocket...")
+    # import pyaudio
+    # import queue
+    # print("Preparing Watson websocket...")
+    # stack = queue.Queue(maxsize=16)
+
+    # def listener(new_data, frame_count, time_info, status):
+    #     stack.put(new_data)
+    #     return (None, pyaudio.paContinue)
+
+    # print("using audioin ", audioin.stack)
+    # a_int = pyaudio.PyAudio()
+    # sound_stream = a_int.open(format=pyaudio.paInt16,
+    #                         channels=1,
+    #                         rate=44100,
+    #                         input=True,
+    #                         frames_per_buffer=1024,
+    #                         start=True,
+    #                         stream_callback=listener)
 
     watson_audio_stack = AudioSource(audioin.stack, is_recording=True, is_buffer=True)
     print("Watson Audio stack created.")
-    
+
     stt_auth.recognize_using_websocket( 
         audio=watson_audio_stack, 
-        content_type="audio/flac", # rate = audioin.py's RATE*CHANNELS 
+        content_type="audio/l16; rate=44100", # rate = audioin.py's RATE*CHANNELS 
         recognize_callback=mycallback,
         interim_results=True, # Print all attempts, including not final responses.
     )
@@ -80,4 +99,7 @@ def stt_file(name):
         )
 
 if __name__ == '__main__':
-    stt_file("testing.wav")
+    #stack = 
+    #stt_file("testing.wav")
+
+    stt_ws_listener()

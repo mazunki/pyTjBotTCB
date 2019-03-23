@@ -3,7 +3,7 @@ from queue import Queue, Full
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
-CHANNELS = 2 
+CHANNELS = 1 
 RATE = 44100
 BUFFER_SIZE = 16*CHUNK
 
@@ -12,10 +12,12 @@ testing = False
 audio_interface = 0
 sound_stream = 0
 stack = 0
+stack = Queue(maxsize=int(BUFFER_SIZE/CHUNK))
 
 def add_to_stack(new_data, frame_count, time_info, status):
     global stack
     try:
+        # print(stack)
         stack.put(new_data)
     except Full:
         pass
@@ -23,8 +25,7 @@ def add_to_stack(new_data, frame_count, time_info, status):
 
 def setup():
     try:
-        global stack
-        stack = Queue(maxsize=int(BUFFER_SIZE/CHUNK))
+        pass
     except:
         print("Couldn't set up stack.")
         stack = None
@@ -59,6 +60,7 @@ def init_audioin():
     global audio_interface
     global sound_stream
     audio_interface, sound_stream = setup()
+    print("Created audio interface {}, sound stream {}, and stack {}".format(audio_interface, sound_stream, stack))
 
     if audio_interface == None:
         print("PyAudio crashed creating microphone.\n")
