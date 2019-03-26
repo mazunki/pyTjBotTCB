@@ -2,7 +2,7 @@
 import socket as sock
 import threading
 
-LOCAL_IP = "localhost"
+LOCAL_IP = "192.168.1.234"
 LOCAL_PORT = 13131
 
 s = sock.socket(sock.AF_INET, sock.SOCK_STREAM)
