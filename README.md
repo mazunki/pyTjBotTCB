@@ -10,11 +10,12 @@ Support for a username/password combination for this service is not supported by
 
 ## Speech to text
 
-Requiring to install pyaudio in order to work with `python -m pip install pyaudio`, stt.py allows the user to receive text from IBM Watson's SpeechToText service.
+Requiring to install pyaudio in order to work with `python3 -m pip install pyaudio`, stt.py allows the user to receive text from IBM Watson's SpeechToText service, installed with `python3 -m pip install watson_developer_cloud`.
 
-In order to handle this, `/audioin.py` is used, which can also record and save a .wav file to the current folder with the `file_stt()` function.
+While tts.tts_file() streams a file to Watson, `stt.stt_ws_listener()` will listen forever for audio on the microphone (actually from a FIFO stack, filled by the mic). Audio files can be recorded on need with `audioin.record_file()`
 
 ## Text to Speech
 
-Fairly simple: Logs in, opens a file, and writes the content of Watson's synthetic sound to it. Then, plays the contents. 
-This might break if more "streams" are changing the file simultaneously, so soon-to-come a new file will be added, with an optional cleanup after session is finished.
+By inputting a string to `tts.watson_play()` the sound will be played on the audio output interface. Playing audio simultaneously makes the audio minced, but isn't a major issue. 
+
+Playing audiofiles is possible with `audioout.play_file()`
