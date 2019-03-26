@@ -5,6 +5,8 @@ import threading
 LOCAL_IP = "192.168.1.234"
 LOCAL_PORT = 13131
 
+NAMES = ["bob", "maria", "tom", "apple"]
+
 s = sock.socket(sock.AF_INET, sock.SOCK_STREAM)
 s.bind((LOCAL_IP, LOCAL_PORT))
 
@@ -15,6 +17,11 @@ attempts = 0
 
 def new_connection(conn, conn_ip):
 	print("found new client:", conn_ip)
+	global NAMES
+	assigning_name = NAMES.pop(0)
+	name_set = "set_name "+assigning_name
+	conn.sendall(name_set.encode("ascii"))
+	print("set", assigning_name, "to", conn)
 	try:
 		while True:
 			try:
