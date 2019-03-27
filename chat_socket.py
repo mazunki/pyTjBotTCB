@@ -95,6 +95,7 @@ def new_connection(conn, conn_ip):
 			except Exception as e:
 				print(e)
 				close_session(conn, conn_ip)
+				return
 
 	except Exception as e:
 		print(e)
