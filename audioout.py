@@ -2,12 +2,12 @@ import pyaudio
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16  # Guessing
-CHANNELS = 1 
+CHANNELS = 2
 RATE = 44100
 BUFFER_SIZE = 16*CHUNK
 
 stopped = False
-testing = False
+external_connection = False
 audio_interface = 0
 sound_stream = 0
 
@@ -54,7 +54,7 @@ def init_audioout():
             while stopped == False:
                 pass  # don't stop me now I'm having such a good time
             else:
-                if not testing:
+                if not external_connection:
                     print("Turning off speaker.")
                     sound_stream.stop_stream()
                     audio_interface.terminate()
@@ -67,6 +67,12 @@ def init_audioout():
 
 def play_audio(bit_audio):
     print("Playing audio")
+    if audio_interface == 0 or sound_stream == 0:
+        global stopped
+        global external_connection
+        stopped = True
+        external_connection = True
+        init_audioout()
     sound_stream.start_stream()
     sound_stream.write(bit_audio)
     sound_stream.stop_stream()
@@ -107,7 +113,7 @@ def test_if_stack_accessible(name, recording_time=5):
 
 if __name__ == "__main__":
     stopped = False
-    testing = True
+    external_connection = True
     init_audioout()
     play_file("testing.wav")
 

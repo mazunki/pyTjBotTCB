@@ -2,7 +2,11 @@
 import socket as sock
 import time
 import threading
-from select import select
+from select import select  # permits timeout/readychecks
+
+import audioout
+import tts
+import text_handler
 
 TARGET_IP = "srv.circuitbreakers.tech"
 TARGET_PORT = 13131
@@ -12,6 +16,10 @@ MY_NAME = None
 s = sock.socket(sock.AF_INET, sock.SOCK_STREAM)
 s.connect((TARGET_IP, TARGET_PORT))
 
+def request_name(name):
+	name_command = "set name " + name
+	s.sendall(name_command.encode("ascii"))
+
 def sender():
 	try:
 		message = None
@@ -20,7 +28,10 @@ def sender():
 			#time.sleep(0.2)
 			if message in ["end", "bye", "q"]:
 				break
-			s.sendall(message.encode("ascii"))
+			elif "my name is" in message:
+				request_name(message[message.find("my name is")+len("my name is")+1:])
+			else:
+				s.sendall(message.encode("ascii"))
 
 	except Exception as e:
 		print(e)
@@ -79,14 +90,24 @@ def network_parser(text_to_parse):
 		tuplified_msg = tuple(message.split(" "))  # oh god this can't be a good idea
 
 		if tuplified_msg[0] == MY_NAME:
-			pass
+			text_handler.do_stuff(" ".join(tuplified_msg[1:]))
+		elif tuplified_msg[0] == "tell":
+			if tuplified_msg[1] == MY_NAME:
+				text_handler.do_stuff(" ".join(tuplified_msg[2:]))
+
 
 	except AssertionError:
 		return
 
+def go_online():
+	global mouth
+	global ears
 
-mouth = threading.Thread(target=sender)
-ears = threading.Thread(target=listener)
+	mouth = threading.Thread(target=sender)
+	ears = threading.Thread(target=listener)
 
-mouth.start()
-ears.start()
+	mouth.start()
+	ears.start()
+
+if __name__ == '__main__':
+	go_online()
