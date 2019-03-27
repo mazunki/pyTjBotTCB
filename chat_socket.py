@@ -55,7 +55,10 @@ def broadcast(msg, src_ip, src_conn=None, exclude_self=True):  # src_conn requir
 	global current_connections
 	others = [client[1] for client in current_connections.values() if client[0] != src_ip]  # client = [conn, src_ip]
 	
-	stream_msg = str(src_ip) + ": " + msg.decode("ascii")
+	for src_name, location in current_connections.items():
+		if location == src_ip:
+			whomstve = src_name
+	stream_msg = str(whomstve) + ": " + msg.decode("ascii")
 
 	print(current_connections)
 	print(others)
