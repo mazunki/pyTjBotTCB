@@ -75,7 +75,7 @@ def new_connection(conn, conn_ip):
 				income = conn.recv(1024)
 				print("{}: {}".format(conn_ip, income))
 
-				if b"set name" in income:
+				if "set name" in income.decode("ascii"):
 					host_name = set_name(income[income.find("my name is")+len("my name is")+1:])
 					if host_name:
 						print("set", host_name, "to", conn)
