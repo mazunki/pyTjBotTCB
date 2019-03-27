@@ -98,7 +98,7 @@ def new_connection(conn, conn_ip):
 		close_session(conn, conn_ip)
 
 threads = list()
-while attempts < max_attempts:
+while ATTEMPTS < MAX_ATTEMPTS:
 	conn, conn_ip = s.accept()
 
 	try:
@@ -109,4 +109,4 @@ while attempts < max_attempts:
 		print(e)
 		s.close()
 	finally:
-		attempts += 1
+		ATTEMPTS += 1
