@@ -103,7 +103,7 @@ while ATTEMPTS < MAX_ATTEMPTS:
 
 	try:
 		conn_thread = threading.Thread(target=new_connection, args=(conn, conn_ip))
-		threads.append(conn_thread)
+		# threads.append(conn_thread)
 		conn_thread.start()
 	except Exception as e:
 		print(e)
