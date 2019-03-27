@@ -6,62 +6,86 @@ LOCAL_IP = "localhost"
 LOCAL_PORT = 13131
 
 NAMES = ["bob", "maria", "tom", "apple"]
+current_connections = dict()
 
 s = sock.socket(sock.AF_INET, sock.SOCK_STREAM)
 s.bind((LOCAL_IP, LOCAL_PORT))
 
 s.listen(True)
 
-max_attempts = 3
-attempts = 0
+MAX_ATTEMPTS = 3
+ATTEMPTS = 0
 
-def new_connection(conn, conn_ip):
+def set_name(conn, conn_ip):
 	print("found new client:", conn_ip)
 	global NAMES
 	assigning_name = NAMES.pop(0)
 	name_set = "set_name "+assigning_name
 	conn.sendall(name_set.encode("ascii"))
-	print("set", assigning_name, "to", conn)
+
+	global current_connections
+	current_connections[assigning_name] = [conn_ip, conn]
+
+	return assigning_name
+
+
+def close_session(conn, conn_ip):
+	try:
+		conn.close()
+		current_connections.pop(conn_ip)
+		print("<== Closed session {} ==>".format(conn_ip))
+	except Exception as e:
+		print("<== Couldn't close session on {} ==>: {}".format(conn_ip, e))
+		return False
+	finally:
+		return True
+
+def broadcast(msg, src_ip, src_conn=None, exclude_self=True):  # src_conn required if sending in return too 
+	global current_connections
+	others = [client[0] for client in current_connections if client[1] != src_ip]  # client = [conn, src_ip]
+	
+	stream_msg = str(src_ip) + ": " + income.decode("ascii") 
+	for client in others:
+		client.sendall(stream_msg.encode("ascii"))
+	if not exclude_self:
+		src_conn.sendall(stream_msg.encode("ascii"))
+
+
+def new_connection(conn, conn_ip):
+	host_name = set_name(conn, conn_ip)  # also adds to connection host list
+	print("set", host_name, "to", conn)
+
 	try:
 		while True:
 			try:
 				income = b""
 				income = conn.recv(1024)
-				print("{}: {}".format(conn_ip, income.decode("ascii")))
-				if income != b"":
-					global connections
-					others = [client for client in connections if client[1] != conn_ip]
-					# print(others)
-					for client in others:
-						print(client[1])
-						print("sending {} to {}".format(income, client))
-						stream_msg = str(conn_ip) + ": " + income.decode("ascii") 
-						client[0].sendall(stream_msg.encode("ascii"))
-					income = b""
+				print("{}: {}".format(conn_ip, income))
+				if income not in [b"q", b"end", b"bye"]:
+					broadcast(income, conn_ip)
 				else:
-					print("{}: <empty>".format(conn_ip))
-					conn.close()
-					connections.remove([conn, conn_ip])
-					return		
+					print("{}: <end message>".format(conn_ip))
+					close_session(conn, conn_ip)
+					return
 
 			except Exception as e:
 				print(e)
-				conn.close()
+				close_session(conn, conn_ip)
+
 	except Exception as e:
 		print(e)
-		conn.close()
+		close_session(conn, conn_ip)
 
-
-connections = list()
-
+threads = list()
 while attempts < max_attempts:
 	conn, conn_ip = s.accept()
 
 	try:
-		connections.append([conn, conn_ip])
 		conn_thread = threading.Thread(target=new_connection, args=(conn, conn_ip))
+		threads.append(conn_thread)
 		conn_thread.start()
 	except Exception as e:
 		print(e)
+		s.close()
 	finally:
 		attempts += 1
