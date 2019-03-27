@@ -2,6 +2,7 @@
 import socket as sock
 import threading
 
+
 LOCAL_IP = "192.168.1.234"
 LOCAL_PORT = 13131
 
@@ -52,7 +53,7 @@ def close_session(conn, conn_ip):
 
 def broadcast(msg, src_ip, src_conn=None, exclude_self=True):  # src_conn required if sending in return too 
 	global current_connections
-	others = [client[0] for client in current_connections if client[1] != src_ip]  # client = [conn, src_ip]
+	others = [client[0] for client in current_connections.values() if client[1] != src_ip]  # client = [conn, src_ip]
 	
 	stream_msg = str(src_ip) + ": " + msg.decode("ascii")
 
