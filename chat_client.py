@@ -75,19 +75,24 @@ def network_parser(text_to_parse):
 	try:
 		assert start_of_message != -1  # Invalid
 
-		source = text_to_parse[:start_of_message]  # "('127.12.34.56', 34278)"
-		assert source[0] == "(" and source[-1] == ")"
+		if MY_NAME == None:
+			source = text_to_parse[:start_of_message]  # "('127.12.34.56', 34278)"
+			assert source[0] == "(" and source[-1] == ")"
 
-		source = source[1:-1]  # "'127.12.34.56', 34278"
+			source = source[1:-1]  # "'127.12.34.56', 34278"
 
-		conn = source.split(", ")  # ["'127.12.34.56'", "34278"]
-		conn_ip = conn[0].replace("'","").replace('"','')  # "127.12.34.56"
-		conn_port = int(conn[1])  # 24278
-		conn = (conn_ip, conn_port) # cleaned up
+			conn = source.split(", ")  # ["'127.12.34.56'", "34278"]
+			conn_ip = conn[0].replace("'","").replace('"','')  # "127.12.34.56"
+			conn_port = int(conn[1])  # 24278
+			conn = (conn_ip, conn_port) # cleaned up
 
-		message = text_to_parse[start_of_message+2:]  # ignoring the space
+			message = text_to_parse[start_of_message+2:]  # ignoring the space
 
-		tuplified_msg = tuple(message.split(" "))  # oh god this can't be a good idea
+			tuplified_msg = tuple(message.split(" "))  # oh god this can't be a good idea
+
+		else:
+			message = text_to_parse[start_of_message+2:]
+			tuplified_msg = tuple(message.split(" "))
 
 		if tuplified_msg[0] == MY_NAME:
 			text_handler.do_stuff(" ".join(tuplified_msg[1:]))

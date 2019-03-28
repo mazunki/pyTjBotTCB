@@ -90,7 +90,7 @@ def new_connection(conn, conn_ip):
 					else:
 						print("couldnt set name")
 
-				elif income not in [b"q", b"end", b"bye"]:
+				elif income not in [b"q", b"end", b"bye", b""]:
 					broadcast(income, conn_ip)
 				else:
 					print("{}: <end message>".format(conn_ip))
