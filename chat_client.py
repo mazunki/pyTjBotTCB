@@ -20,6 +20,7 @@ def request_name(name):
 	name_command = "set name " + name
 	s.sendall(name_command.encode("ascii"))
 
+
 def sender():
 	try:
 		message = None
@@ -56,11 +57,15 @@ def listener():
 			s.setblocking(0)
 			ready = select([s], [], [], 5) # seconds
 			if ready[0]:
-				incoming = s.recv(1024)
-				print(incoming.decode("ascii"), end="")
+				incoming = s.recv(1024).decode("ascii")
+				print(incoming, end="")
 				print("\n> ", sep="", end="")
 
-				network_parser(incoming.decode("ascii"))
+				if "set_name " in incoming:
+					MY_NAME = incoming.replace("set_name ", "")
+					print("my name is", MY_NAME)
+				else:
+					network_parser(incoming)
 
 			#time.sleep(2)
 
