@@ -30,7 +30,7 @@ def set_name(conn, conn_ip, name=None):
 	global current_connections
 	current_connections_ = current_connections.copy()  # python is a baby who is afraid of things changing size
 	for pre_names, pre_conns in current_connections_.items():
-		if pre_conns == [conn, conn_ip]:
+		if pre_conns == [conn_ip, conn]:
 			del current_connections[pre_names]
 		if pre_names == name:
 			return False  # name is in use already! this causes changing to self's old name not being allowed but welp
