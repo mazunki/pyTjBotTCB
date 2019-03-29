@@ -41,3 +41,6 @@ def parse_text(data):
         print("You said: {}\n".format(text_output))
 
         do_stuff(text_output)
+
+if __name__ == '__main__':
+    do_stuff("what are you doing")
