@@ -2,9 +2,12 @@ import time
 import board
 import neopixel
 
+WIDTH = 8
+HEIGHT = 5
 NUM_PIXELS = 40
+
 ORDER = neopixel.GRB
-pixel_pin = board.D18
+PIXEL_PIN = board.D18
 
 # Colors
 WHITE = (255,255,255)
@@ -16,28 +19,27 @@ YELLOW = (255,255,0)
 NEON = (0,255,255)
 PURPLE = (255,0,255)
 
-board = neopixel.NeoPixel(pixel_pin, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
-
+led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
 
 def light_led(pixels, color):
     for pixel in pixels:
-        board[pixel] = color
-    board.show()
+        led_board[pixel] = color
+    led_board.show()
 
 def light_all(color=WHITE):
     for i in range(0,NUM_PIXELS):
-        board[i] = color
-    board.show()
+        led_board[i] = color
+    led_board.show()
 
 
 # POLICE STUFF START
 def police_half():
-    light_led([i for i in range(0,NUM_PIXELS) if i%8 < 4], RED)
-    light_led([i for i in range(0,NUM_PIXELS) if i%8 >= 4], BLUE)
+    light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH < WIDTH/2], RED)
+    light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH >= WIDTH/2], BLUE)
     time.sleep(0.5)
-    light_led([i for i in range(0,NUM_PIXELS) if i%8 < 4], BLUE)
-    light_led([i for i in range(0,NUM_PIXELS) if i%8 >= 4], RED)
+    light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH < WIDTH/2], BLUE)
+    light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH >= WIDTH/2], RED)
     time.sleep(0.5)
 
 def police_fill():
