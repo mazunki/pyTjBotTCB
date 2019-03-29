@@ -63,23 +63,23 @@ def worm():
 # GFX POLICE START
 def police():
     def police_fill():
-      	light_all(RED)
-      	time.sleep(0.5)
-      	light_all(BLACK)
-      	time.sleep(0.1)
-      	light_all(BLUE)
-      	time.sleep(0.5)
-      	light_all(BLACK)
+        light_all(RED)
+        time.sleep(0.5)
+        light_all(BLACK)
+        time.sleep(0.1)
+        light_all(BLUE)
+        time.sleep(0.5)
+        light_all(BLACK)
         time.sleep(0.1)
     def police_half(speed=0.1):
-      	light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH < WIDTH/2], RED)
-      	light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH >= WIDTH/2], BLUE)
-      	time.sleep(speed)
-      	light_all(BLACK)
-      	light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH < WIDTH/2], BLUE)
-      	light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH >= WIDTH/2], RED)
-      	time.sleep(speed)
-      	light_all(BLACK)
+        light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH < WIDTH/2], RED)
+        light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH >= WIDTH/2], BLUE)
+        time.sleep(speed)
+        light_all(BLACK)
+        light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH < WIDTH/2], BLUE)
+        light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH >= WIDTH/2], RED)
+        time.sleep(speed)
+        light_all(BLACK)
 
 
     for _ in range(2):
