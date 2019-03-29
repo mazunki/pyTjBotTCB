@@ -4,7 +4,7 @@ import neopixel
 
 WIDTH = 8
 HEIGHT = 5
-NUM_PIXELS = 40
+NUM_PIXELS = WIDTH*HEIGHT
 
 ORDER = neopixel.GRB
 PIXEL_PIN = board.D18
