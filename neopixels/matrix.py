@@ -35,23 +35,23 @@ def light_all(color=WHITE):
 # GFX POLICE START
 def police():
     def police_fill():
-      	light_all(RED)
-      	time.sleep(0.5)
-      	light_all(BLACK)
-      	time.sleep(0.1)
-      	light_all(BLUE)
-      	time.sleep(0.5)
-      	light_all(BLACK)
+        light_all(RED)
+        time.sleep(0.5)
+        light_all(BLACK)
+        time.sleep(0.1)
+        light_all(BLUE)
+        time.sleep(0.5)
+        light_all(BLACK)
         time.sleep(0.1)
     def police_half(speed):
-      	light_led([i for i in range(0,NUM_PIXELS) if i%8 < 4], RED)
-      	light_led([i for i in range(0,NUM_PIXELS) if i%8 >= 4], BLUE)
-      	time.sleep(speed)
-      	light_all(BLACK)
-      	light_led([i for i in range(0,NUM_PIXELS) if i%8 < 4], BLUE)
-      	light_led([i for i in range(0,NUM_PIXELS) if i%8 >= 4], RED)
-      	time.sleep(speed)
-      	light_all(BLACK)
+        light_led([i for i in range(0,NUM_PIXELS) if i%8 < 4], RED)
+        light_led([i for i in range(0,NUM_PIXELS) if i%8 >= 4], BLUE)
+        time.sleep(speed)
+        light_all(BLACK)
+        light_led([i for i in range(0,NUM_PIXELS) if i%8 < 4], BLUE)
+        light_led([i for i in range(0,NUM_PIXELS) if i%8 >= 4], RED)
+        time.sleep(speed)
+        light_all(BLACK)
 
 
     for _ in range(2):
