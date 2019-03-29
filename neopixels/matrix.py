@@ -53,7 +53,7 @@ def shut_all():
 # Worm
 def worm():
     for row in range(0,HEIGHT):
-        row_pixels = [i for i in range(0,WIDTH) if row%2 == 0 else WIDTH-i-1]  # direction per row
+        row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(0,WIDTH)]  # direction per row
         for pixel in row_pixels:
             light_led([pixel, row], RED, coords=True)
             time.sleep(0.5)
