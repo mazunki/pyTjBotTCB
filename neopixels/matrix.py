@@ -49,13 +49,20 @@ def light_all(color=WHITE):
 def shut_all():
     light_all(BLACK)
 
+def list_leds(*pixel_tuples, coords=False):
+    for pair in pixel_tuples:
+        pixel = pair[0]
+        color = pair[1]
+        light_led(pixel, color, coords)
+
 
 # Worm
 def worm():
     for row in range(0,HEIGHT):
         row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(0,WIDTH)]  # direction per row
         for pixel in row_pixels:
-            light_led([pixel, row], RED, coords=True)
+            light_led([[pixel, row]], RED, coords=True)
+            shut_all()
             time.sleep(0.5)
 
 
