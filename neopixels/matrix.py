@@ -30,7 +30,7 @@ led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=
 
 # Change leds
 def light_led(pixels, color, coords=False):
-    if isintance(light_led, int):  # support single leds
+    if isinstance(light_led, int):  # support single leds
         pixels = [pixels]
 
     for pixel in pixels:
