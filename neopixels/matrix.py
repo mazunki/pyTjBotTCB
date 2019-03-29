@@ -49,7 +49,7 @@ def light_all(color=WHITE):
 def shut_all():
     light_all(BLACK)
 
-def list_leds(*pixel_tuples, coords=False):
+def list_leds(*pixel_tuples, color=WHITE, coords=False):
     for pair in pixel_tuples:
         pixel = pair[0]
         color = pair[1]
