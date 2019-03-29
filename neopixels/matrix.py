@@ -6,6 +6,12 @@ WIDTH = 8
 HEIGHT = 5
 NUM_PIXELS = WIDTH*HEIGHT
 
+POSITIVE_X = 1
+POSITIVE_Y = 1
+
+NEGATIVE_X = -POSITIVE_X
+NEGATIVE_Y = -POSITIVE_Y
+
 ORDER = neopixel.GRB
 PIXEL_PIN = board.D18
 
@@ -22,15 +28,37 @@ PURPLE = (255,0,255)
 
 led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
-def light_led(pixels, color):
+# Change leds
+def light_led(pixels, color, coords=False):
+    if isintance(light_led, int):  # support single leds
+        pixels = [pixels]
+
     for pixel in pixels:
+        if coords:
+            pixel = pixel[0]+WIDTH*pixel[1]
+
         led_board[pixel] = color
+
     led_board.show()
 
 def light_all(color=WHITE):
     for i in range(0,NUM_PIXELS):
         led_board[i] = color
     led_board.show()
+
+def shut_all():
+    light_all(BLACK)
+
+
+# Worm
+def worm():
+    for row in range(0,HEIGHT):
+        row_pixels = [i for i in range(0,WIDTH) if row%2 == 0 else WIDTH-i-1]  # direction per row
+        for pixel in row_pixels:
+            light_led([pixel, row], RED, coords=True)
+            time.sleep(0.5)
+
+
 
 # GFX POLICE START
 def police():
@@ -43,13 +71,13 @@ def police():
         time.sleep(0.5)
         light_all(BLACK)
         time.sleep(0.1)
-    def police_half(speed):
-        light_led([i for i in range(0,NUM_PIXELS) if i%8 < 4], RED)
-        light_led([i for i in range(0,NUM_PIXELS) if i%8 >= 4], BLUE)
+    def police_half(speed=0.1):
+        light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH < WIDTH/2], RED)
+        light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH >= WIDTH/2], BLUE)
         time.sleep(speed)
         light_all(BLACK)
-        light_led([i for i in range(0,NUM_PIXELS) if i%8 < 4], BLUE)
-        light_led([i for i in range(0,NUM_PIXELS) if i%8 >= 4], RED)
+        light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH < WIDTH/2], BLUE)
+        light_led([i for i in range(0,NUM_PIXELS) if i%WIDTH >= WIDTH/2], RED)
         time.sleep(speed)
         light_all(BLACK)
 
@@ -58,7 +86,7 @@ def police():
         for _ in range(2):
             police_fill()
         for _ in range(6):
-            police_half(0.1)
+            police_half()
         light_all(BLACK)
         time.sleep(0.2)
 #/ GFX POLICE end.
