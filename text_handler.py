@@ -1,6 +1,6 @@
-import watson.tts
-import watson.tone_analyzer
-import telegram.telegramSendMessage
+import watson.tts as tts
+import watson.tone_analyzer as tone_analyzer
+import telegram.telegramSendMessage as telegramSendMessage
 
 def do_stuff(text):
     if "%HESITATION" in text: 
