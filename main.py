@@ -1,7 +1,7 @@
-import tts
-import stt
-import audioout
-import audioin
+import watson.tts
+import watson.stt
+import audio.audioout
+import audio.audioin
 
 from threading import Thread
 import time

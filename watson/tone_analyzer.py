@@ -3,7 +3,7 @@ from watson_developer_cloud import ToneAnalyzerV3 as toneanal
 import json
 
 from creds import credentials
-import tts
+import watson.tts
 
 tone_anal_creds = credentials["tone_analyzer"]
 tone_anal = toneanal(

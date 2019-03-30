@@ -1,6 +1,6 @@
 from watson_developer_cloud import TextToSpeechV1 as tts 
 from creds import credentials
-import audioout
+import audio.audioout
 
 stt_creds = credentials["text_to_speech"]
 

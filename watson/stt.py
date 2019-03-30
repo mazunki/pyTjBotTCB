@@ -5,8 +5,8 @@ from threading import Thread
 
 from creds import credentials
 #import text_handler
-import audioin
-import audioout
+import audio.audioin
+import audio.audioout
 import time
 
 error_call = False
