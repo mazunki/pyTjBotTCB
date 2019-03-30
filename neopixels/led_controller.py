@@ -25,7 +25,7 @@ def init_led():
 	led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
 	while True:
-		if led_stack.Empty == False:
+		if led_stack.empty() == False:
 			matrix.worm_alive = False
 			desired_function = led_stack.get()
 			supported[desired_function]
