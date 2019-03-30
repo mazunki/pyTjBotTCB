@@ -186,8 +186,8 @@ def cols_rows():
 #light_all(BLACK)
 #police()
 #light_all(BLACK)
-#gfx_storm_set()
-#light_all(BLACK)
+gfx_storm_set()
+light_all(BLACK)
 #cols_rows()
 
 
