@@ -34,7 +34,7 @@ def init_led():
 			matrix.worm()
 
 def add_support():
-	import neopixels.matrix
+	import neopixels.matrix as matrix
 	global supported
 	supported = {
 		"police": matrix.police,
