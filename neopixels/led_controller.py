@@ -2,7 +2,7 @@ import board
 import neopixel
 from queue import Queue, Full, Empty
 
-import neopixels.matrix
+from neopixels.matrix import police, rainbow
 
 WIDTH = 8
 HEIGHT = 5
@@ -16,8 +16,8 @@ led_board = 0
 
 led_stack = Queue(maxsize=3)
 supported = {
-	"police": matrix.police,
-	"rainbow": matrix_rainbow
+	"police": police,
+	"rainbow": rainbow
 }
 
 def add_to_led(item):
