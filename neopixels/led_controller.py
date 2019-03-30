@@ -1,6 +1,6 @@
 import board
 import neopixel
-from queue import Queue, Full, Empty
+from queue import Queue, full, empty
 
 WIDTH = 8
 HEIGHT = 5
