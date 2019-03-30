@@ -2,7 +2,7 @@ import board
 import neopixel
 from queue import Queue, Full, Empty
 
-import matrix
+import neopixels.matrix
 
 WIDTH = 8
 HEIGHT = 5
@@ -29,19 +29,13 @@ def init_led():
 	led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
 	while True:
-		try:
-			if led_stack.Empty == False:
-				matrix.worm_alive = False
-				desired_function = led_stack.get()
-				supported[desired_function]
-			else:
-				worm_alive = True
-				matrix.worm()
-
-		except Exception as e:
-			raise
+		if led_stack.Empty == False:
+			matrix.worm_alive = False
+			desired_function = led_stack.get()
+			supported[desired_function]
 		else:
-			pass
-		finally:
-			pass
-		
+			worm_alive = True
+			matrix.worm()
+
+add_to_led("police")
+init_led()
