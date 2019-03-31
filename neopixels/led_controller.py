@@ -20,10 +20,10 @@ def add_to_led(item):
 		led_stack.put(item)
 
 def init_led():
+	global led_board
 	led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
 	import neopixels.matrix as matrix
 	
-	global led_board
 	add_support()
 
 	while True:
