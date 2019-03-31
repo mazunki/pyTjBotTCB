@@ -27,13 +27,14 @@ def init_led():
 	add_support()
 
 	while True:
-		if led_stack.empty() == False:
-			matrix.worm_alive = False
-			desired_function = led_stack.get()
-			supported[desired_function]
-		else:
-			worm_alive = True
-			matrix.worm()
+	    print("new check")	
+            if led_stack.empty() == False:
+		matrix.worm_alive = False
+		desired_function = led_stack.get()
+		supported[desired_function]
+	    else:
+		worm_alive = True
+		matrix.worm()
 
 def add_support():
 	import neopixels.matrix as matrix
