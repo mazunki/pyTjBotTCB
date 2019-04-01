@@ -156,7 +156,7 @@ def gfx_storm_set():
     light_all(BLACK)
     time_end = time.time() + 3
     while time.time() < time_end:
-        for i in range(40):
+        for i in range(NUM_PIXELS):
             led_board[i] = (random.choice(COLORS13))
         led_board.show()
         time.sleep(.2)
