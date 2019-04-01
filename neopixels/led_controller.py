@@ -47,5 +47,5 @@ def add_support():
         "rainbow": matrix.rainbow
     }
 
-#add_to_led("police")
-#init_led()
+add_to_led("police")
+init_led()
