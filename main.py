@@ -8,6 +8,8 @@ from threading import Thread
 import time
 
 if __name__ == "__main__":
+
+    print("beard")
     
     th_audio_out = Thread(target=audioout.init_audioout, name="maznoski")
     th_audio_in =  Thread(target=audioin.init_audioin, name="MiceLitoris")
