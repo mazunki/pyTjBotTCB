@@ -21,6 +21,7 @@ if __name__ == "__main__":
     th_watson_stt_socket.start()
     time.sleep(5)
     th_audio_out.start()
+    th_led.start()
 
 
     try:
