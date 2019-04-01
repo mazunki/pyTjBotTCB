@@ -2,7 +2,7 @@
 #import watson.stt as stt
 #import audio.audioout as audioout
 #import audio.audioin as audioin
-#import neopixels.led_controller as led_controller
+import neopixels.led_controller as led_controller
 
 from threading import Thread
 import time
