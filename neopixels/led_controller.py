@@ -2,6 +2,8 @@ import board
 import neopixel
 from queue import *
 
+
+
 WIDTH = 8
 HEIGHT = 1
 NUM_PIXELS = WIDTH*HEIGHT
@@ -33,7 +35,7 @@ def init_led():
             desired_function = led_stack.get()
             supported[desired_function]
         else:
-            worm_alive = True
+            matrix.worm_alive = True
             matrix.worm()
 
 def add_support():
