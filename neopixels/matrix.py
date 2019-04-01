@@ -64,8 +64,8 @@ def worm():
                     light_led([[pixel, row]], RED, coords=True)
                     time.sleep(0.2)
                     shut_all()
-            for row in range(HEIGHT, 0, -1):
-                row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(WIDTH, 0, -1)]  # direction per row
+            for row in range(HEIGHT-1, -1, -1):
+                row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(WIDTH-1, -1, -1)]  # direction per row
                 for pixel in row_pixels:
                     assert worm_alive
                     light_led([[pixel, row]], RED, coords=True)
