@@ -11,7 +11,7 @@ if __name__ == "__main__":
     
     th_audio_out = Thread(target=audioout.init_audioout, name="maznoski")
     th_audio_in =  Thread(target=audioin.init_audioin, name="MiceLitoris")
-    #th_watson_stt_socket = Thread(target=stt.stt_ws_listener, name="mr_watson")
+    th_watson_stt_socket = Thread(target=stt.stt_ws_listener, name="mr_watson")
     th_led = Thread(target=led_controller.init_led, name="god")
     
     th_audio_out.start()
