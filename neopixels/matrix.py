@@ -149,7 +149,7 @@ def gfx_storm():
     light_all(BLACK)
     time_end = time.time() + 5
     while time.time() < time_end:
-        for i in range(40):
+        for i in range(NUM_PIXELS):
             r = random.randrange(256)
             g = random.randrange(256)
             b = random.randrange(256)
