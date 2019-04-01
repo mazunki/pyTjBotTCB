@@ -29,12 +29,12 @@ def init_led():
     while True:
         print("new check")    
         if led_stack.empty() == False:
-	        matrix.worm_alive = False
-	        desired_function = led_stack.get()
-        	supported[desired_function]
+            matrix.worm_alive = False
+            desired_function = led_stack.get()
+            supported[desired_function]
         else:
-    	    worm_alive = True
- 	       matrix.worm()
+            worm_alive = True
+            matrix.worm()
 
 def add_support():
     import neopixels.matrix as matrix
