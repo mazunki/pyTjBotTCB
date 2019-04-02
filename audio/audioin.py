@@ -1,3 +1,6 @@
+"""
+This file, mainly, sets up a microphone, and sends all its audio to this.stack, accesible from the global module.
+"""
 import pyaudio
 from queue import Queue, Full
 
