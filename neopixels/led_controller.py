@@ -7,7 +7,7 @@ HEIGHT = 1
 NUM_PIXELS = WIDTH*HEIGHT
 
 ORDER = neopixel.GRB
-PIXEL_PIN = board.D18
+PIXEL_PIN = board.D21
 
 led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
