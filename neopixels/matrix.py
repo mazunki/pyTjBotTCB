@@ -38,7 +38,7 @@ def light_led(pixels, color, coords=False):
     led_board.show()
 
 def light_all(color=WHITE):
-    print(led_board)
+    #print(led_board)
     for i in range(0,NUM_PIXELS):
         led_board[i] = color
     led_board.show()
@@ -78,6 +78,7 @@ def worm():
 
 # GFX POLICE START
 def police():
+    print("be bu be bu")
     def police_fill():
         light_all(RED)
         time.sleep(0.5)
