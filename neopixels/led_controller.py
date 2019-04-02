@@ -25,8 +25,7 @@ def add_to_led(item):
 def init_led():
     global led_board
     led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
-    if __name__ != "__main__":
-        import neopixels.matrix as matrix
+    import neopixels.matrix as matrix
     
     add_support()
 
@@ -41,8 +40,7 @@ def init_led():
             matrix.worm()
 
 def add_support():
-    if __name__ != "__main__":
-        import neopixels.matrix as matrix
+    import neopixels.matrix as matrix
     global supported
     supported = {
         "police": matrix.police,
@@ -50,6 +48,7 @@ def add_support():
     }
 
 if __name__ == "__main__":
-    import matrix
+    import sys
+    sys.path.insert(0,'../')
     add_to_led("police")
     init_led()
