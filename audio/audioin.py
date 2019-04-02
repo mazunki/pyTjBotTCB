@@ -27,6 +27,9 @@ def add_to_stack(new_data, frame_count, time_info, status):
     return (None, pyaudio.paContinue)
 
 def setup():
+    """
+    Try to find a microphone and a stream for it
+    """
     try:
         audio_interface = pyaudio.PyAudio()  # Python interface to PortAudio, check `class PyAudio` of pyaudio.py.
     except:
