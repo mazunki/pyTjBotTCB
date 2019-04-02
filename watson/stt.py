@@ -1,3 +1,6 @@
+"""
+Allows a constant stream of raw string data from the microphone stream.
+"""
 from watson_developer_cloud import SpeechToTextV1 as stt
 from watson_developer_cloud.websocket import RecognizeCallback, AudioSource
 
