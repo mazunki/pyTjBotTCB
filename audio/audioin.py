@@ -55,6 +55,9 @@ def setup():
 
 
 def init_audioin():
+    """
+    Initializing script for microphone, used from main.py
+    """
     print("Setting up microphone...")
     global audio_interface
     global sound_stream
