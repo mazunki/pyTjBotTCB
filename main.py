@@ -19,7 +19,7 @@ if __name__ == "__main__":
     th_led = Thread(target=led_controller.init_led, name="god")
     
     th_audio_out.start()
-    time.sleep(1)
+    time.sleep(1) # Adding a delay to ensure dependencies set up in correct order
     th_audio_in.start()
     time.sleep(5)
     th_watson_stt_socket.start()
