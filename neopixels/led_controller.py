@@ -2,18 +2,14 @@ import board
 import neopixel
 from queue import *
 
-
-
 WIDTH = 8
 HEIGHT = 1
 NUM_PIXELS = WIDTH*HEIGHT
 
 ORDER = neopixel.GRB
-
 PIXEL_PIN = board.D18
 
 led_board = 0
-
 
 led_stack = Queue(maxsize=3)
 supported = dict()
@@ -25,6 +21,7 @@ def add_to_led(item):
 def init_led():
     global led_board
     led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
+    print(led_board)
     import neopixels.matrix as matrix
     
     add_support()
@@ -47,5 +44,8 @@ def add_support():
         "rainbow": matrix.rainbow
     }
 
-#add_to_led("police")
-#init_led()
+if __name__ == "__main__":
+    import sys
+    sys.path.insert(0,'../')
+    add_to_led("police")
+    init_led()

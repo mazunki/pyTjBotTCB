@@ -173,25 +173,24 @@ def gfx_storm_set():
 def cols():
     line_color = random.choice(COLORS13)
     for i in range(8):
-        for j in range(i, NUM_PIXELS, 8):
+        for j in range(i, NUM_PIXELS, WIDTH):
             led_board[j] = (line_color)
         led_board.show()
         time.sleep(.1)
         light_all(BLACK)
 
 
-# Run functions ############
+# Sample functions
 
-#worm()
-#light_all(BLACK)
-#rainbow()
-#light_all(BLACK)
-#police()
-#light_all(BLACK)
-#gfx_storm_set()
-#light_all(BLACK)
-#cols_rows()
-
+# worm()
+# light_all(BLACK)
+# rainbow()
+# light_all(BLACK)
+# police()
+# light_all(BLACK)
+# gfx_storm_set()
+# light_all(BLACK)
+# cols_rows()
 
 for _ in range(2):
     light_all(BLACK)
