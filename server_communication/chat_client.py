@@ -4,8 +4,8 @@ import time
 import threading
 from select import select  # permits timeout/readychecks
 
-import audioout
-import tts
+import audio.audioout
+import watson.tts
 import text_handler
 
 TARGET_IP = "srv.circuitbreakers.tech"

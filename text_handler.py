@@ -1,6 +1,6 @@
-import tts
-import tone_analyzer
-import telegramSendMessage
+import watson.tts as tts
+import watson.tone_analyzer as tone_analyzer
+import telegram.telegramSendMessage as telegramSendMessage
 
 def do_stuff(text):
     if "%HESITATION" in text: 
@@ -22,6 +22,13 @@ def do_stuff(text):
     #        except KeyboardInterrupt:
     #            tts.watson_play("I stopped listening to Telegram now.")
     #            break
+
+    elif text.split()[0] in ["light", "shine"]:
+        import neopixels.led_controller as led_controller
+        if "rainbow" in text.split()[1:]:
+            led_controller.add_to_led("rainbow")
+        elif "police" in text.split()[1:]:
+            led_controller.add_to_led("police")
 
     else: 
         tts.watson_play(text)
