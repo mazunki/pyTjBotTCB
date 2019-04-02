@@ -91,6 +91,9 @@ def init_audioin():
             print("Interrupted audio_in")
 
 def record_file(name, recording_time=5):
+    """
+    Allows generating audio files fro the stream.
+    """
     import time
 
     print("Recording to file \"{}\" for {}s".format(name, recording_time))
