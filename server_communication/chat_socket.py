@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Used from the server.
+"""
 import socket as sock
 import threading
 
