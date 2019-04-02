@@ -3,6 +3,7 @@ import watson.stt as stt
 import audio.audioout as audioout
 import audio.audioin as audioin
 import neopixels.led_controller as led_controller
+import server_communication.chat_client as chat_client
 
 from threading import Thread
 import time
@@ -14,6 +15,7 @@ if __name__ == "__main__":
     th_audio_out = Thread(target=audioout.init_audioout, name="maznoski")
     th_audio_in =  Thread(target=audioin.init_audioin, name="MiceLitoris")
     th_watson_stt_socket = Thread(target=stt.stt_ws_listener, name="mr_watson")
+    th_server_connection = Thread(target=chat_client.go_online, name="servertalker")
     th_led = Thread(target=led_controller.init_led, name="god")
     
     th_audio_out.start()
@@ -23,6 +25,8 @@ if __name__ == "__main__":
     th_watson_stt_socket.start()
     time.sleep(5)
     th_led.start()
+    time.sleep(1)
+    th_server_connection.start()
 
 
     try:
