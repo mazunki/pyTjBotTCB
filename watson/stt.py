@@ -56,6 +56,10 @@ stt_auth = stt(iam_apikey=stt_creds["api_key"], url=stt_creds["url"])
 mycallback = MyRecognizeCallback()
 
 def stt_ws_listener():
+    """
+    Opens a socket to Watson services with the microphone's queue stack, running the callback functions
+    defined on MyRecognizeCallback as Watson returns network data, while listening forever.
+    """
     # import pyaudio
     # import queue
     # print("Preparing Watson websocket...")
