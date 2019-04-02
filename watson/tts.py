@@ -24,4 +24,6 @@ def watson_play(play_text):
     return audioout.play_audio(synthetic_voice)
 
 if __name__ == '__main__':
+    import sys.path
+    sys.path.insert(0,"../")
     watson_play("what song is that. darude sandstorm")
