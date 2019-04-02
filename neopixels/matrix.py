@@ -1,11 +1,7 @@
 import time
-import board
-import neopixel
 import random
 
-WIDTH = 8
-HEIGHT = 5
-NUM_PIXELS = WIDTH*HEIGHT
+from neopixels.led_controller import led_board, WIDTH, HEIGHT, NUM_PIXELS, ORDER, PIXEL_PIN
 
 POSITIVE_X = 1
 POSITIVE_Y = 1
@@ -13,8 +9,6 @@ POSITIVE_Y = 1
 NEGATIVE_X = -POSITIVE_X
 NEGATIVE_Y = -POSITIVE_Y
 
-ORDER = neopixel.GRB
-PIXEL_PIN = board.D18
 
 # Colors
 WHITE = (255,255,255)
@@ -28,7 +22,6 @@ PURPLE = (255,0,255)
 
 COLORS13 = [0x808080, 0xFF0000, 0x800000, 0xFFFF00, 0x808000, 0x00FF00, 0x008000, 0x00FFFF, 0x008080, 0x0000FF, 0x000080, 0xFF00FF, 0x800080]
 
-led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
 # Change leds
 def light_led(pixels, color, coords=False):
@@ -51,15 +44,34 @@ def light_all(color=WHITE):
 def shut_all():
     light_all(BLACK)
 
+def list_leds(*pixel_tuples, coords=False):
+    for pair in pixel_tuples:
+        pixel = pair[0]
+        color = pair[1]
+        light_led(pixel, color, coords)
+
 
 # Worm
+worm_alive = False
 def worm():
-    for row in range(0,HEIGHT):
-        row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(0,WIDTH)]  # direction per row
-        for pixel in row_pixels:
-            light_led([[pixel, row]], RED, coords=True)
-            time.sleep(0.2)
-            shut_all()
+    try:
+        while worm_alive:
+            for row in range(0,HEIGHT):
+                row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(0,WIDTH)]  # direction per row
+                for pixel in row_pixels[:-1]:
+                    assert worm_alive
+                    light_led([[pixel, row]], RED, coords=True)
+                    time.sleep(0.2)
+                    shut_all()
+            for row in range(HEIGHT-1, -1, -1):
+                row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(WIDTH-1, -1, -1)]  # direction per row
+                for pixel in row_pixels[:-1]:
+                    assert worm_alive
+                    light_led([[pixel, row]], RED, coords=True)
+                    time.sleep(0.2)
+                    shut_all()
+    except AssertionError:
+        return
 
 
 # GFX POLICE START
@@ -136,7 +148,7 @@ def gfx_storm():
     light_all(BLACK)
     time_end = time.time() + 5
     while time.time() < time_end:
-        for i in range(40):
+        for i in range(NUM_PIXELS):
             r = random.randrange(256)
             g = random.randrange(256)
             b = random.randrange(256)
@@ -150,7 +162,7 @@ def gfx_storm_set():
     light_all(BLACK)
     time_end = time.time() + 3
     while time.time() < time_end:
-        for i in range(40):
+        for i in range(NUM_PIXELS):
             led_board[i] = (random.choice(COLORS13))
         led_board.show()
         time.sleep(.2)

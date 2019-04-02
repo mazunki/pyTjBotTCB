@@ -1,9 +1,12 @@
+"""
+Allows sending strings of text to Watson to analyse its emotion value, and parse its return Json value to usable content.
+"""
 from watson_developer_cloud import ToneAnalyzerV3 as toneanal
 
 import json
 
 from creds import credentials
-import tts
+import watson.tts as tts
 
 tone_anal_creds = credentials["tone_analyzer"]
 tone_anal = toneanal(
@@ -15,7 +18,9 @@ tone_anal = toneanal(
 sample_text = "I am really pissed at you now. You could have done better. Do you really think you could get away with what you have done? You ignorant piece of shit."
 
 def analyse_text(text=sample_text, num_tones=1): # 7 is the currently highest number of tones
-
+    """
+    Sends a string to Watson and parses an output from the json returned
+    """        
     print("analysing tone...", text)
     data_to_analyze = {
             "text": text
