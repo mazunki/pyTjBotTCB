@@ -24,7 +24,10 @@ def init_led():
     print(led_board)
     import neopixels.matrix as matrix
     
-    add_support()
+    supported = {
+        "police": matrix.police,
+        "rainbow": matrix.rainbow
+    }
 
     while True:
         print("new check")    
@@ -36,12 +39,6 @@ def init_led():
             matrix.worm_alive = True
             matrix.worm()
 
-def add_support():
-    global supported
-    supported = {
-        "police": matrix.police,
-        "rainbow": matrix.rainbow
-    }
 
 if __name__ == "__main__":
     import sys
