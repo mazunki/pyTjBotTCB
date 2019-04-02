@@ -194,11 +194,11 @@ def cols():
 # light_all(BLACK)
 # cols_rows()
 
-for _ in range(2):
-    light_all(BLACK)
-    gfx_storm_set()
-    light_all(BLACK)
-    rainbow()
-    light_all(BLACK)
-    police()
-    light_all(BLACK)
+#for _ in range(2):
+#    light_all(BLACK)
+#    gfx_storm_set()
+#    light_all(BLACK)
+#    rainbow()
+#    light_all(BLACK)
+#    police()
+#    light_all(BLACK)
