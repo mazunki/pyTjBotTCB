@@ -47,6 +47,9 @@ def set_name(conn, conn_ip, name=None):
 
 
 def close_session(conn, conn_ip):
+	"""
+	Actually not functional, per default behaviour, as clients already close their session from their side.
+	"""
 	try:
 		conn.close()
 		current_connections.pop(conn_ip)
