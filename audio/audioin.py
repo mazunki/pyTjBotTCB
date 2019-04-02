@@ -28,13 +28,6 @@ def add_to_stack(new_data, frame_count, time_info, status):
 
 def setup():
     try:
-        pass
-    except:
-        print("Couldn't set up stack.")
-        stack = None
-        return None, None
-
-    try:
         audio_interface = pyaudio.PyAudio()  # Python interface to PortAudio, check `class PyAudio` of pyaudio.py.
     except:
         audio_interface = None
