@@ -25,7 +25,7 @@ def init_led():
     print(led_board)
     import neopixels.matrix as matrix
     
-    global support
+    global supported
     supported = {
         "police": matrix.police,
         "rainbow": matrix.rainbow
