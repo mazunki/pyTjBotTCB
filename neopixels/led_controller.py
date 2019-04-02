@@ -20,6 +20,7 @@ supported = {
 def add_to_led(item):
     if item in supported.keys():
         led_stack.put(item)
+        print("potetmos")
 
 def init_led():
     global led_board
