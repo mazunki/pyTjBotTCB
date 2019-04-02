@@ -47,5 +47,6 @@ def add_support():
         "rainbow": matrix.rainbow
     }
 
-#add_to_led("police")
-#init_led()
+if __name__ == "__main__":
+    add_to_led("police")
+    init_led()
