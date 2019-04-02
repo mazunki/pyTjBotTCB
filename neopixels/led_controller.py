@@ -3,7 +3,7 @@ import neopixel
 from queue import *
 
 WIDTH = 8
-HEIGHT = 1
+HEIGHT = 5
 NUM_PIXELS = WIDTH*HEIGHT
 
 ORDER = neopixel.GRB
@@ -12,7 +12,10 @@ PIXEL_PIN = board.D18
 led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
 led_stack = Queue(maxsize=3)
-supported = dict()
+supported = {
+        "police": matrix.police,
+        "rainbow": matrix.rainbow
+    }
 
 def add_to_led(item):
     if item in supported.keys():
@@ -23,11 +26,6 @@ def init_led():
     #led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
     print(led_board)
     import neopixels.matrix as matrix
-    
-    supported = {
-        "police": matrix.police,
-        "rainbow": matrix.rainbow
-    }
 
     while True:
         print("new check")    
