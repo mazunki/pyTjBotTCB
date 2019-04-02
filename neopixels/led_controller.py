@@ -39,6 +39,7 @@ def init_led():
             matrix.worm_alive = False
             desired_function = led_stack.get()
             supported[desired_function]
+            print("runned", desired_function)
         else:
             matrix.worm_alive = True
             matrix.worm()
