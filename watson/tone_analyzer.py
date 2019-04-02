@@ -1,3 +1,6 @@
+"""
+Allows sending strings of text to Watson to analyse its emotion value, and parse its return Json value to usable content.
+"""
 from watson_developer_cloud import ToneAnalyzerV3 as toneanal
 
 import json
