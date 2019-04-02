@@ -1,5 +1,6 @@
 import time
 import random
+import neopixel
 
 from neopixels.led_controller import led_board, WIDTH, HEIGHT, NUM_PIXELS, ORDER, PIXEL_PIN
 
