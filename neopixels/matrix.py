@@ -4,7 +4,7 @@ import neopixel
 import random
 
 WIDTH = 8
-HEIGHT = 5
+HEIGHT = 1 
 NUM_PIXELS = WIDTH*HEIGHT
 
 POSITIVE_X = 1
@@ -136,7 +136,7 @@ def gfx_storm():
     light_all(BLACK)
     time_end = time.time() + 5
     while time.time() < time_end:
-        for i in range(40):
+        for i in range(NUM_PIXELS):
             r = random.randrange(256)
             g = random.randrange(256)
             b = random.randrange(256)
@@ -150,7 +150,7 @@ def gfx_storm_set():
     light_all(BLACK)
     time_end = time.time() + 3
     while time.time() < time_end:
-        for i in range(40):
+        for i in range(NUM_PIXELS):
             led_board[i] = (random.choice(COLORS13))
         led_board.show()
         time.sleep(.2)
