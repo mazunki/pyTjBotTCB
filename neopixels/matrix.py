@@ -37,6 +37,7 @@ def light_led(pixels, color, coords=False):
     led_board.show()
 
 def light_all(color=WHITE):
+    print(led_board)
     for i in range(0,NUM_PIXELS):
         led_board[i] = color
     led_board.show()
