@@ -22,7 +22,7 @@ ATTEMPTS = 0
 
 def set_name(conn, conn_ip, name=None):
 	"""
-	DNS service, pretty much.
+	Similar to a DNS service, pretty much.
 	"""
 	print("found new client:", conn_ip)
 	if name == None:	
