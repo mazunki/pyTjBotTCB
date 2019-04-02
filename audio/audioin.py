@@ -15,6 +15,9 @@ stack = 0
 stack = Queue(maxsize=int(BUFFER_SIZE/CHUNK))
 
 def add_to_stack(new_data, frame_count, time_info, status):
+    """
+    Used by the stream to add know where to send data to
+    """
     global stack
     try:
         # print(new_data, "\n")
