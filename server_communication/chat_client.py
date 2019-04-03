@@ -3,7 +3,9 @@ import socket as sock
 import time
 import threading
 from select import select  # permits timeout/readychecks
-
+if __name__ == '__main__':
+	import sys
+	sys.path.insert(0, "..")
 import audio.audioout
 import watson.tts
 import text_handler
@@ -29,16 +31,20 @@ def sender():
 			#time.sleep(0.2)
 			if message in ["end", "bye", "q"]:
 				break
+
 			elif "my name is" in message:
 				request_name(message[message.find("my name is")+len("my name is")+1:])
+
 			else:
 				s.sendall(message.encode("ascii"))
 
 	except Exception as e:
 		print(e)
 		s.close()
+		return
 	finally:
 		s.close()
+		return
 
 def listener():
 	try:
@@ -58,16 +64,16 @@ def listener():
 			ready = select([s], [], [], 5) # seconds
 			if ready[0]:
 				incoming = s.recv(1024).decode("ascii")
-				print(incoming, end="")
-				print("\n> ", sep="", end="")
+				if incoming != "":
+					print(incoming, end="")
+					print("\n> ", sep="", end="")
 
 				if "set_name " in incoming:
 					MY_NAME = incoming.replace("set_name ", "")
 					print("my name is", MY_NAME)
+
 				else:
 					network_parser(incoming)
-
-			#time.sleep(2)
 
 	except Exception as e:
 		s.close()
@@ -100,8 +106,17 @@ def network_parser(text_to_parse):
 			tuplified_msg = tuple(message.split(" "))
 
 		if tuplified_msg[0] == MY_NAME:
+			try:
+				assert len(tuplified_msg) >= 2
+			except AssertionError:
+				return
 			text_handler.do_stuff(" ".join(tuplified_msg[1:]))
+
 		elif tuplified_msg[0] == "tell":
+			try:
+				assert len(tuplified_msg) >= 3
+			except AssertionError:
+				return
 			if tuplified_msg[1] == MY_NAME:
 				text_handler.do_stuff(" ".join(tuplified_msg[2:]))
 

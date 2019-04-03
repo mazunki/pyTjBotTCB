@@ -70,8 +70,6 @@ def broadcast(msg, src_ip, src_conn=None, exclude_self=True):  # src_conn requir
 			whomstve = src_name
 	stream_msg = str(whomstve) + ": " + msg.decode("ascii")
 
-	print(current_connections)
-	print(others)
 	for client in others:
 		client.sendall(stream_msg.encode("ascii"))
 	if not exclude_self:
@@ -97,10 +95,11 @@ def new_connection(conn, conn_ip):
 					if host_name:
 						print("set", host_name, "to", conn)
 					else:
-						print("couldnt set name")
+						print("couldn't set name")
 
 				elif income not in [b"q", b"end", b"bye", b""]:
 					broadcast(income, conn_ip)
+
 				else:
 					print("{}: <end message>".format(conn_ip))
 					close_session(conn, conn_ip)
@@ -116,15 +115,22 @@ def new_connection(conn, conn_ip):
 		close_session(conn, conn_ip)
 
 threads = list()
-while ATTEMPTS < MAX_ATTEMPTS:
-	conn, conn_ip = s.accept()
+try:
+	while ATTEMPTS < MAX_ATTEMPTS:
+		conn, conn_ip = s.accept()
 
-	try:
-		conn_thread = threading.Thread(target=new_connection, args=(conn, conn_ip))
-		# threads.append(conn_thread)
-		conn_thread.start()
-	except Exception as e:
-		print(e)
-		s.close()
-	finally:
-		ATTEMPTS += 1
+		try:
+			conn_thread = threading.Thread(target=new_connection, args=(conn, conn_ip))
+			# threads.append(conn_thread)
+			conn_thread.start()
+		except Exception as e:
+			print(e)
+			s.close()
+		finally:
+			ATTEMPTS += 1
+except:
+	for connection in current_connections:
+		close_session(connection)
+finally:
+	for connection in current_connections:
+		close_session(connection)
