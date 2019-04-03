@@ -12,6 +12,9 @@ audio_interface = 0
 sound_stream = 0
 
 def setup():
+    """
+    Try to find a speaker and a stream for it
+    """
     global audio_interface
     global sound_stream
 
@@ -37,6 +40,9 @@ def setup():
 
 
 def init_audioout():
+    """
+    Initializing script for speaker, used from main.py
+    """
     print("Setting up speaker...")
     global audio_interface
     global sound_stream
@@ -66,6 +72,9 @@ def init_audioout():
 
 
 def play_audio(bit_audio):
+    """
+    Writes the input to the audio stream.
+    """
     print("Playing audio")
     if audio_interface == 0 or sound_stream == 0:
         global stopped
@@ -79,6 +88,9 @@ def play_audio(bit_audio):
     print("Done playing audio.")
 
 def play_file(file_name):
+    """
+    Used to play a pre-recorded file, and send it to play_audio.
+    """
     import time
     print("Playing file:", file_name)
     with open(file_name, "rb") as f:
@@ -87,6 +99,10 @@ def play_file(file_name):
     time.sleep(5)
 
 def test_if_stack_accessible(name, recording_time=5):
+    """
+    Used as a development function to check if mic and speaker can read each other.
+    Safe to ignore this function from a user perspective.
+    """
     import time
     import audioin
     import queue

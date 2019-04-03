@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Used by the server.
+"""
 import socket as sock
 import threading
 
@@ -18,6 +21,9 @@ MAX_ATTEMPTS = 3
 ATTEMPTS = 0
 
 def set_name(conn, conn_ip, name=None):
+	"""
+	Similar to a DNS service, pretty much.
+	"""
 	print("found new client:", conn_ip)
 	if name == None:	
 		global NAMES
@@ -41,6 +47,9 @@ def set_name(conn, conn_ip, name=None):
 
 
 def close_session(conn, conn_ip):
+	"""
+	Actually not functional, per default behaviour, as clients already close their session from their side.
+	"""
 	try:
 		conn.close()
 		current_connections.pop(conn_ip)

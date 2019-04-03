@@ -1,8 +1,8 @@
 import time
 import random
+import neopixel
 
 from neopixels.led_controller import led_board, WIDTH, HEIGHT, NUM_PIXELS, ORDER, PIXEL_PIN
-
 
 POSITIVE_X = 1
 POSITIVE_Y = 1
@@ -38,6 +38,7 @@ def light_led(pixels, color, coords=False):
     led_board.show()
 
 def light_all(color=WHITE):
+    #print(led_board)
     for i in range(0,NUM_PIXELS):
         led_board[i] = color
     led_board.show()
@@ -59,7 +60,14 @@ def worm():
         while worm_alive:
             for row in range(0,HEIGHT):
                 row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(0,WIDTH)]  # direction per row
-                for pixel in row_pixels:
+                for pixel in row_pixels[:-1]:
+                    assert worm_alive
+                    light_led([[pixel, row]], RED, coords=True)
+                    time.sleep(0.2)
+                    shut_all()
+            for row in range(HEIGHT-1, -1, -1):
+                row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(WIDTH-1, -1, -1)]  # direction per row
+                for pixel in row_pixels[:-1]:
                     assert worm_alive
                     light_led([[pixel, row]], RED, coords=True)
                     time.sleep(0.2)
@@ -142,7 +150,7 @@ def gfx_storm():
     light_all(BLACK)
     time_end = time.time() + 5
     while time.time() < time_end:
-        for i in range(40):
+        for i in range(NUM_PIXELS):
             r = random.randrange(256)
             g = random.randrange(256)
             b = random.randrange(256)
@@ -156,7 +164,7 @@ def gfx_storm_set():
     light_all(BLACK)
     time_end = time.time() + 3
     while time.time() < time_end:
-        for i in range(40):
+        for i in range(NUM_PIXELS):
             led_board[i] = (random.choice(COLORS13))
         led_board.show()
         time.sleep(.2)
@@ -164,36 +172,33 @@ def gfx_storm_set():
 
 ###
 
-def cols_rows():
-    row_pixels={1:(0,7),2:(8,15),3:(16,23),4:(24,31),5:(32,40)}
-    for _ in range(10):
-        line_color = random.choice(COLORS13)
-        for i in range(8):
-            for j in range(i, NUM_PIXELS, 8):
-                led_board[j] = (line_color)
-                led_board.show()
-                light_all(BLACK)
-                for l in range(j, j+8):
-                    led_board[l] = (line_color)
-                    led_board.show()
-                    time.sleep(.2)
-
-# Run functions
-
-#worm()
-#light_all(BLACK)
-#rainbow()
-#light_all(BLACK)
-#police()
-#light_all(BLACK)
-gfx_storm_set()
-light_all(BLACK)
-#cols_rows()
+def cols():
+    line_color = random.choice(COLORS13)
+    for i in range(8):
+        for j in range(i, NUM_PIXELS, WIDTH):
+            led_board[j] = (line_color)
+        led_board.show()
+        time.sleep(.1)
+        light_all(BLACK)
 
 
+# Sample functions
 
-#for _ in range(3):
-#    gfx_storm()
+# worm()
+# light_all(BLACK)
+# rainbow()
+# light_all(BLACK)
+# police()
+# light_all(BLACK)
+# gfx_storm_set()
+# light_all(BLACK)
+# cols_rows()
+
+#for _ in range(2):
 #    light_all(BLACK)
 #    gfx_storm_set()
+#    light_all(BLACK)
+#    rainbow()
+#    light_all(BLACK)
+#    police()
 #    light_all(BLACK)

@@ -23,6 +23,13 @@ def do_stuff(text):
     #            tts.watson_play("I stopped listening to Telegram now.")
     #            break
 
+    elif text.split()[0] in ["light", "shine"]:
+        import neopixels.led_controller as led_controller
+        if "rainbow" in text.split()[1:]:
+            led_controller.add_to_led("rainbow")
+        elif "police" in text.split()[1:]:
+            led_controller.add_to_led("police")
+
     else: 
         tts.watson_play(text)
         #telegramSendMessage.send_message(text=text)

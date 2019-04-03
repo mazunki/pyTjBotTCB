@@ -1,3 +1,6 @@
+"""
+This file, mainly, sets up a microphone, and sends all its audio to this.stack, accesible from the global module.
+"""
 import pyaudio
 from queue import Queue, Full
 
@@ -15,6 +18,9 @@ stack = 0
 stack = Queue(maxsize=int(BUFFER_SIZE/CHUNK))
 
 def add_to_stack(new_data, frame_count, time_info, status):
+    """
+    Used by the stream to add know where to send data to
+    """
     global stack
     try:
         # print(new_data, "\n")
@@ -24,13 +30,9 @@ def add_to_stack(new_data, frame_count, time_info, status):
     return (None, pyaudio.paContinue)
 
 def setup():
-    try:
-        pass
-    except:
-        print("Couldn't set up stack.")
-        stack = None
-        return None, None
-
+    """
+    Try to find a microphone and a stream for it
+    """
     try:
         audio_interface = pyaudio.PyAudio()  # Python interface to PortAudio, check `class PyAudio` of pyaudio.py.
     except:
@@ -56,6 +58,9 @@ def setup():
 
 
 def init_audioin():
+    """
+    Initializing script for microphone, used from main.py
+    """
     print("Setting up microphone...")
     global audio_interface
     global sound_stream
@@ -89,6 +94,9 @@ def init_audioin():
             print("Interrupted audio_in")
 
 def record_file(name, recording_time=5):
+    """
+    Allows generating audio files fro the stream.
+    """
     import time
 
     print("Recording to file \"{}\" for {}s".format(name, recording_time))

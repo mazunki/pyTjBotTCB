@@ -1,3 +1,6 @@
+"""
+Allows using Telegram's API
+"""
 import requests
 import json
 
@@ -6,7 +9,9 @@ bot_token = "892823135:AAFE2jL98lx5mTrG3kwKLkQ_TmVQcUShodw"
 tg_url = api_telegram_url+bot_token+"/"
 
 def send_message(to_channel="@pyTJBOTTCB", text="from python test"):
-    
+    """
+    Sends a message to the desired destination.
+    """
     rq_url = tg_url + "sendMessage"
     rq_data = {
             "chat_id": to_channel,
@@ -17,7 +22,9 @@ def send_message(to_channel="@pyTJBOTTCB", text="from python test"):
     print(json.dumps(answer.json()))
 
 def getUpdates():
-
+    """"
+    Reads all new messages bot has received.
+    """
     rq_url = tg_url + "getUpdates"
 
     with open("lastTgQuery.ini") as f:
