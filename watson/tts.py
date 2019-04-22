@@ -28,8 +28,8 @@ def watson_play(play_text):
 
 if __name__ == '__main__':
     
-    import sys.path
-    sys.path.insert(0,"../")
+    from sys import path
+    path.insert(0,"../")
     from watson_developer_cloud import TextToSpeechV1 as wtts
     from creds import credentials
     import audio.audioout as audioout
