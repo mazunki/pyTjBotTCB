@@ -3,7 +3,7 @@ import neopixel
 from queue import *
 
 WIDTH = 8
-HEIGHT = 1 
+HEIGHT = 5 
 NUM_PIXELS = WIDTH*HEIGHT
 
 ORDER = neopixel.GRB

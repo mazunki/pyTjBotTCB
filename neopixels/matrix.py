@@ -62,14 +62,14 @@ def worm():
             for pixel in row_pixels[:-1]:
                 assert worm_alive
                 light_led([[pixel, row]], RED, coords=True)
-                time.sleep(0.2)
+                time.sleep(0.02)
                 shut_all()
         for row in range(HEIGHT-1, -1, -1):
             row_pixels = [i if row%2 == 0 else WIDTH-i-1 for i in range(WIDTH-1, -1, -1)]  # direction per row
             for pixel in row_pixels[:-1]:
                 assert worm_alive
                 light_led([[pixel, row]], RED, coords=True)
-                time.sleep(0.2)
+                time.sleep(0.02)
                 shut_all()
     except AssertionError:
         return
