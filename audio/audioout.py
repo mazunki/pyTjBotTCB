@@ -6,22 +6,16 @@ CHANNELS = 1
 RATE = 44100
 BUFFER_SIZE = 16*CHUNK
 
-def setup():
-    audio_interface = pyaudio.PyAudio()
-    sound_stream = audio_interface.open(
-        format=FORMAT,
-        channels=CHANNELS,
-        rate=RATE,
-        output=True,
-    )
-
-    return audio_interface, sound_stream
-
+audio_interface = pyaudio.PyAudio()
+sound_stream = audio_interface.open(
+    format=FORMAT,
+    channels=CHANNELS,
+    rate=RATE,
+    output=True
+)
 
 def play_audio(bit_audio, length=None):
     import time
-
-    audio_int, sound_stream = setup()
     
     sound_stream.start_stream()
     sound_stream.write(bit_audio)
@@ -29,19 +23,25 @@ def play_audio(bit_audio, length=None):
     end=time.time()+length
     while end > time.time():
         pass
-    
+
     sound_stream.stop_stream()
     print("Done playing audio.")
 
 def play_file(file_name):
     import time
+    import wave
     print("Playing file:", file_name)
     
-    with open(file_name, "rb") as f:
-        bit_data = f.read()
+    wf = wave.open(file_name, 'rb')
+    bit_data = wf.readframes(CHUNK)
+    
+    sound_stream.start_stream()
+    while len(bit_data) > 0:
+        sound_stream.write(bit_data)
+        bit_data = wf.readframes(CHUNK)
+    sound_stream.stop_stream()
 
-    play_audio(bit_data, length=8)
 
 if __name__ == "__main__":
-    play_file("hello_world.wav")
+    play_file("letsdance.wav")
 

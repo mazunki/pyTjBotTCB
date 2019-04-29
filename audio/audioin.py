@@ -26,6 +26,7 @@ sound_stream = audio_interface.open(
     frames_per_buffer=CHUNK,
     stream_callback=add_to_stack,
 )
+print("")
 
 def record_file(name, recording_time=5):
     import time

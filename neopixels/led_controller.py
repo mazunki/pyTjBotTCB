@@ -18,7 +18,6 @@ def add_to_led(item):
     global led_stack
     if item in supported.keys():
         led_stack.put(item)
-        print("potetmos")
     else:
         print(supported)
 
@@ -26,7 +25,6 @@ def add_to_led(item):
 def init_led():
     global led_board
     #led_board = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.2, auto_write=False, pixel_order=ORDER)
-    print(led_board)
     import neopixels.matrix as matrix
 
     global supported
@@ -39,10 +37,12 @@ def init_led():
         global led_stack
         print(list(led_stack.queue))
         if led_stack.empty() == False:
+            worm_alive = False
             desired_function = led_stack.get()
             supported[desired_function]()
-            print("runned", desired_function)
+            print("Shining", desired_function)
         else:
+            worm_alive = True
             matrix.worm()
 
 

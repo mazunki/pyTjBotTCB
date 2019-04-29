@@ -49,14 +49,10 @@ class MyRecognizeCallback(RecognizeCallback):
         #print(list(led_controller.led_stack.queue))
 
     def on_close(self): 
-        print("oetahnudaohtneudhtaoedunhtoadeuhtndaoehtudaotnheudConnection closed")
-
-        print("hehe hihi")
+        print("Closed websocket to Watson")
 
         #led_controller.add_to_led("police")
         #print("closed", list(led_controller.led_stack.queue))
-        print("\n"*10)
-
 
 
 stt_creds = credentials["speech_to_text"]
