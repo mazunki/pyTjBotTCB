@@ -1,109 +1,42 @@
-"""
-This file, mainly, sets up a microphone, and sends all its audio to this.stack, accesible from the global module.
-"""
 import pyaudio
-from queue import Queue, Full
+from queue import Queue, Full, Empty
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
-CHANNELS = 1 
+CHANNELS = 1
 RATE = 44100
 BUFFER_SIZE = 16*CHUNK
 
-stopped = False 
-testing = False
-audio_interface = 0
-sound_stream = 0
-stack = 0
 stack = Queue(maxsize=int(BUFFER_SIZE/CHUNK))
 
 def add_to_stack(new_data, frame_count, time_info, status):
-    """
-    Used by the stream to add know where to send data to
-    """
     global stack
     try:
-        # print(new_data, "\n")
         stack.put(new_data)
     except Full:
         pass
     return (None, pyaudio.paContinue)
 
-def setup():
-    """
-    Try to find a microphone and a stream for it
-    """
-    try:
-        audio_interface = pyaudio.PyAudio()  # Python interface to PortAudio, check `class PyAudio` of pyaudio.py.
-    except:
-        audio_interface = None
-        sound_stream = None
-        stack = None
-    finally:
-        try:
-            sound_stream = audio_interface.open(
-                                format=FORMAT, 
-                                channels=CHANNELS, 
-                                rate=RATE, 
-                                input=True, 
-                                frames_per_buffer=CHUNK,
-                                stream_callback=add_to_stack,
-                                start=True,
-                           )
-        except:
-            sound_stream = None
-            stack = None
-
-    return audio_interface, sound_stream
-
-
-def init_audioin():
-    """
-    Initializing script for microphone, used from main.py
-    """
-    print("Setting up microphone...")
-    global audio_interface
-    global sound_stream
-    audio_interface, sound_stream = setup()
-    # print("Created audio interface {}, sound stream {}, and stack {}".format(audio_interface, sound_stream, stack))
-
-    if audio_interface == None:
-        print("PyAudio crashed creating microphone.\n")
-    elif sound_stream == None:
-        print("Microphone stream couldn't be created.\n")
-    elif stack == None:
-        print("Couldn't set up microphone stack.\n")
-    else:
-        sound_stream.start_stream()
-        print("Microphone should be working.\n")
-
-        global stopped
-        try:
-            while stopped == False:
-                pass  # I'm having a ball. Don't stop me now~
-            else:
-                if not testing:
-                    print("Turning off microphone.")
-                    sound_stream.stop_stream()
-                    audio_interface.terminate()
-                    print("Closing init_audioin")
-                    return
-                else:
-                    return
-        except KeyboardInterrupt:
-            print("Interrupted audio_in")
+audio_interface = pyaudio.PyAudio()  # Python interface to PortAudio, check `class PyAudio` of pyaudio.py.
+sound_stream = audio_interface.open(
+    format=FORMAT, 
+    channels=CHANNELS, 
+    rate=RATE, 
+    input=True, 
+    frames_per_buffer=CHUNK,
+    stream_callback=add_to_stack,
+)
 
 def record_file(name, recording_time=5):
-    """
-    Allows generating audio files fro the stream.
-    """
     import time
 
     print("Recording to file \"{}\" for {}s".format(name, recording_time))
     frames = list()
-    start_time = time.time()
-    end_time = start_time + recording_time
+    end_time = time.time() + recording_time
     
+    global sound_stream
+    sound_stream.start_stream()
+
     while time.time() < end_time:
         try:
             oldest_frame = stack.get(CHUNK)
@@ -113,14 +46,12 @@ def record_file(name, recording_time=5):
     else:
         print("Recording done. Saving to file...")
 
+        sound_stream.stop_stream()
+        sound_stream.close()
         with open(name, "wb") as f:
             f.write(b"".join(frames))
             print("Done.")
 
 if __name__ == '__main__':
-    stopped = False
-    testing = True
-    init_audioin()
-
-    record_file("testing2.wav", 5) 
+    record_file("hello_world.wav", 8) 
 

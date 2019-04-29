@@ -12,8 +12,6 @@ import audio.audioin as audioin
 import audio.audioout as audioout
 import time
 
-output_string = None
-
 class MyRecognizeCallback(RecognizeCallback):
     def __init__(self):
         RecognizeCallback.__init__(self)
@@ -43,22 +41,16 @@ class MyRecognizeCallback(RecognizeCallback):
         #text_handler.parse_text(data)
 
         print(data)
-        global output_string
-        output_string = "police"
-        #led_controller.add_to_led("police")
-        #print(list(led_controller.led_stack.queue))
+
+        led_controller.add_to_led("police")
+        print(list(led_controller.led_stack.queue))
 
     def on_close(self): 
-        print("oetahnudaohtneudhtaoedunhtoadeuhtndaoehtudaotnheudConnection closed")
+        print("Connection closed")
 
-        print("hehe hihi")
-
-        #led_controller.add_to_led("police")
-        #print("closed", list(led_controller.led_stack.queue))
-        print("\n"*10)
-
-
-
+        led_controller.add_to_led("police")
+        print("closed", list(led_controller.led_stack.queue))
+    
 stt_creds = credentials["speech_to_text"]
 
 stt_auth = stt(iam_apikey=stt_creds["api_key"], url=stt_creds["url"])
@@ -77,9 +69,7 @@ def stt_file(name):
             recognize_callback=mycallback,
             interim_results=True, # Print all attempts, including not final responses.
         )
-
-        global output_string
-        return output_string
+        print("watsonclose")
 
 if __name__ == '__main__':
     #stack = 

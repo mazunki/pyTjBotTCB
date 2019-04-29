@@ -3,7 +3,7 @@ import neopixel
 from queue import *
 
 WIDTH = 8
-HEIGHT = 5
+HEIGHT = 1 
 NUM_PIXELS = WIDTH*HEIGHT
 
 ORDER = neopixel.GRB
@@ -15,6 +15,7 @@ led_stack = Queue(maxsize=3)
 supported = dict()
 
 def add_to_led(item):
+    global led_stack
     if item in supported.keys():
         led_stack.put(item)
         print("potetmos")
@@ -34,17 +35,14 @@ def init_led():
         "rainbow": matrix.rainbow
     }
 
-    add_to_led("police")
-
     while True:
-        print("new check")
+        global led_stack
+        print(list(led_stack.queue))
         if led_stack.empty() == False:
-            matrix.worm_alive = False
             desired_function = led_stack.get()
             supported[desired_function]()
             print("runned", desired_function)
         else:
-            matrix.worm_alive = True
             matrix.worm()
 
 
