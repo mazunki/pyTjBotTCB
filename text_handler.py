@@ -12,5 +12,11 @@ def do_stuff(text):
            with open("lastTgQuery.ini", "w+") as f:
                f.write(str(message["update_id"]))
 
+def parse_text(data):
+        if data["results"][0]["final"] == True:
+            text_output = data["results"][0]["alternatives"][0]["transcript"]  # fucked up json formatting, but who tf cares
+        do_stuff(text_output)
+
+
 if __name__ == '__main__':
     do_stuff("what are you doing")

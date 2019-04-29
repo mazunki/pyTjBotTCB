@@ -14,6 +14,8 @@ if __name__ == "__main__":
     print("\n"*50) 
     
     while True:
+        json_update = []
+        my_str = ""
         audioin.record_file("inputaudio.wav", recording_time=10)
         print("Done recording.")
 
@@ -23,7 +25,7 @@ if __name__ == "__main__":
         print("Found message {} in message from Watson".format(my_str))
         if my_str != None and "read" in my_str:
             print("Telegram assistant on the run!")
-            update = telegramSendMessage.getUpdates()
+            update = telegram.getUpdates()
             json_update = update.json()
             for message in json_update["result"]:
                 tts.watson_play(message["message"]["from"]["first_name"]+" said "+message["message"]["text"])
@@ -32,5 +34,4 @@ if __name__ == "__main__":
                     f.write(str(message["update_id"]))
         else:
             telegram.send_message(text=my_str)
-
 

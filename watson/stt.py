@@ -21,6 +21,7 @@ class MyRecognizeCallback(RecognizeCallback):
 
     def on_transcription(self, transcript):
         print("Transcription done") 
+
     
     def on_connected(self):
         print('Connection to IBM Watson was successful')
@@ -44,7 +45,8 @@ class MyRecognizeCallback(RecognizeCallback):
 
         print(data)
         global output_string
-        output_string = data 
+        output_string = data["results"][0]["alternatives"][0]["transcript"]
+
         #led_controller.add_to_led("police")
         #print(list(led_controller.led_stack.queue))
 

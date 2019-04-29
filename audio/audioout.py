@@ -14,7 +14,7 @@ sound_stream = audio_interface.open(
     output=True
 )
 
-def play_audio(bit_audio, length=None):
+def play_audio(bit_audio, length=0):
     import time
     
     sound_stream.start_stream()
