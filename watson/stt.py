@@ -44,7 +44,7 @@ class MyRecognizeCallback(RecognizeCallback):
 
         print(data)
         global output_string
-        output_string = "police"
+        output_string = data 
         #led_controller.add_to_led("police")
         #print(list(led_controller.led_stack.queue))
 

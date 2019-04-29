@@ -48,7 +48,6 @@ def record_file(name, recording_time=5):
         print("Recording done. Saving to file...")
 
         sound_stream.stop_stream()
-        sound_stream.close()
         with open(name, "wb") as f:
             f.write(b"".join(frames))
             print("Done.")
